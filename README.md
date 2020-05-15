@@ -5,19 +5,19 @@ Mad Science is a game where the player must click on the appropriate balls falli
 
 ## MVP (DOM - CANVAS)
 
--Balls falling from the top of screen
--Points scored on click of target color
--3 colors per beaker
--Game screen reload on target change
--4 full beakers to win the game
--10 lives/player looses 1 life per target ball that hits the ground
+- Balls falling from the top of screen
+- Points scored on click of target color
+- 3 colors per beaker
+- Game screen reload on target change
+- 4 full beakers to win the game
+- 10 lives/player looses 1 life per target ball that hits the ground
 
 ## Backlog
 
--Update DOM for new level
--Increase difficulty
--Advance level
--Generate random sizes for balls
+- Update DOM for new level
+- Increase difficulty
+- Advance level
+- Generate random sizes for balls
 
 ## Data Structure
 
