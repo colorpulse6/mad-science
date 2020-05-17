@@ -28,6 +28,8 @@ function main() {
       var startButton = splashScreen.querySelector("#start-button");
   
       startButton.addEventListener("click", function() {
+        removeSplashScreen()
+        createGameScreen();
         startGame();
       });
     }
@@ -38,7 +40,7 @@ function main() {
   
 
     createSplashScreen();
-    splashScreen.remove()
+    
 }
   window.addEventListener("load", main);
 
@@ -47,96 +49,246 @@ function main() {
 
 //*********Play Game********
 
+function createGameScreen() {
+  gameScreen = buildDom(`
+  
+    <div id="canvas-div">
+      <canvas id="canvas" width="700" height="700"></canvas>
+        <div id="beaker-div">
+          
+          <img class="beakerClass"src="img/Nic Beaker/Beaker png/blue1.png">
+          <img class="beakerClass"src="img/Nic Beaker/Beaker png/blue2.png">
+          <img class="beakerClass"src="img/Nic Beaker/Beaker png/blue3.png">
+       </div>
+
+    </div>
+    
+    `);
+
+  document.body.appendChild(gameScreen);
+  return gameScreen;
+  
+}
+
+function startGame(){ 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-//Generate random Starting Position
-var randomX = Math.floor(Math.random()* 480) + 20;
-var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-
-//Ball Class
-  class Ball {
-      constructor(x, y, vx, vy, radius, color){
-          this.x = x;
-          this.y = y;
-          this.vx = vx;
-          this.vy = vy;
-          this.radius = radius;
-          this.color = color;
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-        ctx.closePath();
-        ctx.fillStyle = this.color;
-        ctx.fill();
-      }
-      
-  }
-
-//Generate Random Balls
-let ball;
-let ballArray = [];
-function generateBalls(){
-    
-    for (let i=0; i<10; i++){
-         ballArray.push(new Ball(0, 0, 0, 5, 20, 'color'))
-         
-    } 
-    for(let i=0;i<ballArray.length;i++){
-      ball = ballArray[i]
-      //change x and color each iteration
-      ball.x = Math.floor(Math.random()* 480) + 20
-      ball.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-      console.log(randomColor)
-    }
-    
-}
-
-
-  //Ball Movement (put behavior here)
-function update() { 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);    
-    ball.draw();
-    ball.x += ball.vx;
-    ball.y += ball.vy;
-    //Test behavior
-    if (ball.y === canvas.height){
-        console.log('clear')
-        generateBalls()
-        
-    }
-  }
-  
-  //Open Loop 
-generateBalls();
-
-let inervalId = setInterval(update, 20);
- 
-
-
-
-
-  //Get cursor position
-function getCursorPosition(grid, event) {
-    const rect = grid.getBoundingClientRect()
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    console.log("x: " + x + " y: " + y)
-    console.log(ball.x, ball.y);
-    if (x >= ball.x  && x <= ball.x + ball.radius || y >= ball.y  && y <= ball.y + ball.radius)
-     {
-    console.log('clicked')
-    
-  }
-}
-
-const grid = document.querySelector('#canvas');
-canvas.addEventListener('mousedown', function(e) {
-    getCursorPosition(canvas, e)
-    //Clear Ball
-    ball.radius = 0;
+let bg = new Image();
+bg.src = "img/pexels-photo-3786215.jpeg";
+bg.addEventListener('load', function(){
+  ctx.drawImage(bg, 0, 0)
 })
 
+//Draw beakers
+let beakerRed0 = new Image();
+let beakerRed1 = new Image();
+let beakerRed2 = new Image();
+let beakerRed3 = new Image();
+let beakerBlue0 = new Image();
+let beakerBlue1 = new Image();
+let beakerBlue2 = new Image();
+let beakerBlue3 = new Image();
+let beakerPurple0 = new Image();
+let beakerPurple1 = new Image();
+let beakerPurple2 = new Image();
+let beakerPurple3 = new Image();
+let beakerGreen0 = new Image();
+let beakerGreen1 = new Image();
+let beakerGreen2 = new Image();
+let beakerGreen3 = new Image();
+let dropletRed = new Image();
+
+
+beakerRed1.src = "img/Nic Beaker/Beaker png/red1.png"
+
+dropletRed.src = "img/DropletRed.png"
+
+
+
+
+
+
+let ballArray = []
+let spawnRate = 500; //(more is less)
+let rateOfDescent = 1;
+let lastSpawn = -10
+
+//Get cursor position
+let rect;
+let mouseX;
+let mouseY;
+let counter = 0;
+function getCursorPosition(canvas, event) {
+     rect = canvas.getBoundingClientRect()
+     mouseX = event.clientX - rect.left;
+     mouseY = event.clientY - rect.top;
+     console.log("x: " + mouseX + " y: " + mouseY)
+}
+
+
+//Generate Random Color
+var colorArray = ['blue', 'red', 'green', 'purple', 'orange', 'black']
+var randomColor;
+function getRandomColor(){
+  colorArray.forEach(function(el){
+    randomColor = colorArray[Math.floor(Math.random() * colorArray.length)];
+    return randomColor;
+  })
+}
+getRandomColor()
+
+var targetArray = ['blue', 'red', 'green', 'purple']
+var randomTarget;
+function getRandomTarget(){
+  targetArray.forEach(function(el){
+    randomTarget = targetArray[Math.floor(Math.random() * targetArray.length)];
+    return randomTarget;
+  })
+}
+getRandomTarget()
+
+
+//Spawn Balls 
+function makeBalls(){
+  let balls = {
+    x: Math.random() * (canvas.width - 50) + 15,
+    y: 0,
+    r: 20,
+    color:randomColor  
+  }
+  ballArray.push(balls)
+}
+
+
+//Make Balls fall
+function ballsFall(){
+  var time = Date.now();
+  if (time > (lastSpawn + spawnRate)) {
+        lastSpawn = time;
+        makeBalls();
+    }
+    
+  for (let i = 0; i<ballArray.length; i++) {
+    let object = ballArray[i];
+    object.y += rateOfDescent;
+    getRandomColor();
+    getRandomTarget();
+    ctx.beginPath();
+    ctx.arc(object.x, object.y, object.r, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fillStyle = object.color;
+    ctx.fill();
+  }
+}
+
+//Build target
+let target;
+function generateTarget(){
+   target = randomTarget;
+  console.log(target)
+}
+generateTarget()
+
+
+//test if ball is clicked
+
+redCounter = 0;
+blueCounter = 0;
+purpleCounter = 0;
+greenCounter = 0;
+var mouseDown = false;
+canvas.onmousedown = function() { 
+  mouseDown = true;
+}
+
+function grabBall(){ 
+  for (let i = 0; i<ballArray.length; i++){
+    let object = ballArray[i];
+    
+      if (mouseX >= object.x  && mouseX <= object.x + object.radius || mouseY >= object.y  && mouseY <= object.y + object.r) {
+        
+        console.log('clicked')
+         //Test of ball is target color
+        if (object.color === 'red' && target === 'red'){
+          redCounter ++;
+          console.log('You got a red!' + redCounter);
+          object.r = 0;
+          
+        } else if (object.color === 'blue' && target === 'blue'){
+          blueCounter ++;
+          console.log('You got a blue!' + blueCounter);
+          object.r = 0;
+        } else if (object.color === 'purple' && target === 'purple'){
+          purpleCounter ++;
+          console.log('You got a purple!' + purpleCounter);
+          object.r = 0;
+        } else if (object.color === 'green' && target === 'green'){
+          greenCounter ++;
+          console.log('You got a green! ' + greenCounter);
+          object.r = 0;
+        }
+        
+    }
+   
+    //Change Target
+    if(redCounter === 3){
+      redCounter = 0;
+      generateTarget()
+     
+
+    } else if (blueCounter === 3){
+      blueCounter = 0;
+      generateTarget();
+    } else if (purpleCounter === 3){
+      purpleCounter = 0;
+      generateTarget();
+    } else if (greenCounter === 3){
+      greenCounter = 0;
+      generateTarget();
+    }
+    //Collision Test
+    if(object.y === canvas.height){
+      console.log('clear')
+    }
+   
+ }
+
+
+
+}
+
+  //Ball Movement (put behavior here)
+function draw() {
+  //Draw Background
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(bg, 0, 0,canvas.width,canvas.height);
+  ctx.font = "30px Arial";
+  ctx.fillText("Target: " + target[0].toUpperCase() +  
+  target.slice(1), 10, 50);
+  
+
+  ballsFall();
+ 
+
+}
+
+// On click function
+canvas.addEventListener('mousedown', function(e) {
+  getCursorPosition(canvas, e)
+  grabBall();
+
+  
+})
+
+
+  //Open Loop 
+
+let ballInterval = setInterval(draw, 10);
+
+
+//clearInterval(ballInterval)
+
+}
   
 
 

@@ -25,10 +25,30 @@ align-items:center;
     background-color: #15C62D;
     
 }
+#canvas-div{
+    width:1000px;
+    display:flex;
+    justify-content: space-around;
+   
+
+}
+#beaker-div {
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.beakerClass{
+    width:200px;
+    height:200px;
+    margin-left:-80px;
+    margin-top:50px;
+}
 
 #canvas{
     display:flex;
     justify-content: center;
     margin:0 auto;
-    background-color:white;
+    background-color:black;
+    
 }
+
