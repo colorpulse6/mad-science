@@ -20,6 +20,11 @@ function main() {
         <div id="scientist-div">
             <img id="scientist" src="img/Poison Scientist.svg">
             <img id="science-text" src="img/Mad-science-text.png">
+            <div id="directions" class="blinking">
+              <h1>Click the Balls!</h1>
+              <h1>Fill the Beakers!</h1>
+            </div>
+            
             <button id="start-button">Commence!</button>
         </div>`);
   
@@ -37,6 +42,8 @@ function main() {
     function removeSplashScreen() {
         splashScreen.remove();
       }
+
+      
   
 
     createSplashScreen();
@@ -53,12 +60,32 @@ function createGameScreen() {
   gameScreen = buildDom(`
   
     <div id="canvas-div">
-      <canvas id="canvas" width="700" height="700"></canvas>
+      <canvas id="canvas" width="500" height="500"></canvas>
         <div id="beaker-div">
           
-          <img class="beakerClass"src="img/Nic Beaker/Beaker png/blue1.png">
-          <img class="beakerClass"src="img/Nic Beaker/Beaker png/blue2.png">
-          <img class="beakerClass"src="img/Nic Beaker/Beaker png/blue3.png">
+          <img id="beakerBlue0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue0.png">
+          <img id="beakerBlue1" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue1.png">
+          <img id="beakerBlue2" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue2.png">
+          <img id="beakerBlue3" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue3.png">
+
+          <img id="beakerRed0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red0.png">
+          <img id="beakerRed1" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red1.png">
+          <img id="beakerRed2" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red2.png">
+          <img id="beakerRed3" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red3.png">
+
+          <img id="beakerPurple0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple0.png">
+          <img id="beakerPurple1" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple1.png">
+          <img id="beakerPurple2" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple2.png">
+          <img id="beakerPurple3" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple3.png">
+
+          <img id="beakerGreen0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green0.png">
+          <img id="beakerGreen1"  class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green1.png">
+          <img id="beakerGreen2"  class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green2.png">
+          <img id="beakerGreen3"  class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green3.png">
+
+
+          
+
        </div>
 
     </div>
@@ -79,38 +106,37 @@ bg.addEventListener('load', function(){
   ctx.drawImage(bg, 0, 0)
 })
 
-//Draw beakers
-let beakerRed0 = new Image();
-let beakerRed1 = new Image();
-let beakerRed2 = new Image();
-let beakerRed3 = new Image();
-let beakerBlue0 = new Image();
-let beakerBlue1 = new Image();
-let beakerBlue2 = new Image();
-let beakerBlue3 = new Image();
-let beakerPurple0 = new Image();
-let beakerPurple1 = new Image();
-let beakerPurple2 = new Image();
-let beakerPurple3 = new Image();
-let beakerGreen0 = new Image();
-let beakerGreen1 = new Image();
-let beakerGreen2 = new Image();
-let beakerGreen3 = new Image();
+//Draw Splat
+
 let dropletRed = new Image();
-
-
-beakerRed1.src = "img/Nic Beaker/Beaker png/red1.png"
-
 dropletRed.src = "img/DropletRed.png"
 
+//Get Beakers
+let beakerBlue0 = document.getElementById('beakerBlue0');
+let beakerBlue1 = document.getElementById('beakerBlue1');
+let beakerBlue2 = document.getElementById('beakerBlue2');
+let beakerBlue3 = document.getElementById('beakerBlue3');
 
+let beakerRed0 = document.getElementById('beakerRed0');
+let beakerRed1 = document.getElementById('beakerRed1');
+let beakerRed2 = document.getElementById('beakerRed2');
+let beakerRed3 = document.getElementById('beakerRed3');
 
+let beakerPurple0 = document.getElementById('beakerPurple0');
+let beakerPurple1 = document.getElementById('beakerPurple1');
+let beakerPurple2 = document.getElementById('beakerPurple2');
+let beakerPurple3 = document.getElementById('beakerPurple3');
+
+let beakerGreen0 = document.getElementById('beakerGreen0');
+let beakerGreen1 = document.getElementById('beakerGreen1');
+let beakerGreen2 = document.getElementById('beakerGreen2');
+let beakerGreen3 = document.getElementById('beakerGreen3');
 
 
 
 let ballArray = []
-let spawnRate = 500; //(more is less)
-let rateOfDescent = 1;
+let spawnRate = 300; //(more is less)
+let rateOfDescent = 2;
 let lastSpawn = -10
 
 //Get cursor position
@@ -137,17 +163,6 @@ function getRandomColor(){
 }
 getRandomColor()
 
-var targetArray = ['blue', 'red', 'green', 'purple']
-var randomTarget;
-function getRandomTarget(){
-  targetArray.forEach(function(el){
-    randomTarget = targetArray[Math.floor(Math.random() * targetArray.length)];
-    return randomTarget;
-  })
-}
-getRandomTarget()
-
-
 //Spawn Balls 
 function makeBalls(){
   let balls = {
@@ -159,7 +174,28 @@ function makeBalls(){
   ballArray.push(balls)
 }
 
+//Generate Random Target
 
+var targetArray = ['blue', 'red', 'green', 'purple']
+var randomTarget;
+function getRandomTarget(){
+  targetArray.forEach(function(el){
+    randomTarget = targetArray[Math.floor(Math.random() * targetArray.length)];
+    return randomTarget;
+  })
+}
+getRandomTarget()
+
+//Build target
+let target;
+function generateTarget(){
+   target = randomTarget;
+  console.log(target)
+}
+
+generateTarget()
+
+let lives = 10;
 //Make Balls fall
 function ballsFall(){
   var time = Date.now();
@@ -181,16 +217,45 @@ function ballsFall(){
   }
 }
 
-//Build target
-let target;
-function generateTarget(){
-   target = randomTarget;
-  console.log(target)
+//Collision Test
+function collision(){
+  for (let i = 0; i< ballArray.length; i++){
+    let object = ballArray[i];
+    
+    if(object.y === canvas.height && object.color === target){
+        lives -= 1
+        console.log(lives)
+        }   
+        if(lives === 0){
+          createGameOverScreen()
+        }  
+  }
+  
+
 }
-generateTarget()
 
 
+
+
+//Img movement
+/*
+function moveImg(img) {
+  
+  var pos = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (pos == 350) {
+      clearInterval(id);
+    } else {
+      pos++;
+      img.style.top = pos + 'px';
+      img.style.left = pos + 'px';
+    }
+  }
+}
+/*/
 //test if ball is clicked
+
 
 redCounter = 0;
 blueCounter = 0;
@@ -205,7 +270,7 @@ function grabBall(){
   for (let i = 0; i<ballArray.length; i++){
     let object = ballArray[i];
     
-      if (mouseX >= object.x  && mouseX <= object.x + object.radius || mouseY >= object.y  && mouseY <= object.y + object.r) {
+      if (mouseX >= object.x && mouseX <= object.x + object.r || mouseY >= object.y && mouseY <= object.y + object.r) {
         
         console.log('clicked')
          //Test of ball is target color
@@ -227,35 +292,94 @@ function grabBall(){
           console.log('You got a green! ' + greenCounter);
           object.r = 0;
         }
-        
+
     }
+    
+    
    
     //Change Target
     if(redCounter === 3){
-      redCounter = 0;
-      generateTarget()
-     
-
+      beakerRed2.classList.add('hideBeaker')
+      beakerRed3.classList.remove('hideBeaker')
+      setTimeout(function(){
+        redCounter = 0;
+        beakerRed3.classList.add('hideBeaker')
+      }, 1000)
+      generateTarget();
     } else if (blueCounter === 3){
-      blueCounter = 0;
+      beakerBlue2.classList.add('hideBeaker')
+      beakerBlue3.classList.remove('hideBeaker')
+      setTimeout(function(){
+        blueCounter = 0;
+        beakerBlue3.classList.add('hideBeaker')
+      }, 1000)
       generateTarget();
     } else if (purpleCounter === 3){
-      purpleCounter = 0;
+      beakerPurple2.classList.add('hideBeaker')
+      beakerPurple3.classList.remove('hideBeaker')
+      setTimeout(function(){
+        purpleCounter = 0;
+        beakerPurple3.classList.add('hideBeaker')
+      }, 1000)
       generateTarget();
     } else if (greenCounter === 3){
-      greenCounter = 0;
+      beakerGreen2.classList.add('hideBeaker')
+      beakerGreen3.classList.remove('hideBeaker')
+      setTimeout(function(){
+        greenCounter = 0;
+        beakerGreen3.classList.add('hideBeaker')
+
+      }, 1000)
       generateTarget();
     }
-    //Collision Test
-    if(object.y === canvas.height){
-      console.log('clear')
-    }
+
+    
    
  }
-
+ //Change Beaker
+ //Red
+ if (target === 'red' && redCounter === 0 || target === 'red' && redCounter === 3){
+  beakerRed0.classList.remove('hideBeaker')
+ } else if (target === 'red' && redCounter === 1){
+  beakerRed0.classList.add('hideBeaker')
+  beakerRed1.classList.remove('hideBeaker')
+} else if (target === 'red' && redCounter === 2){
+  beakerRed1.classList.add('hideBeaker')
+  beakerRed2.classList.remove('hideBeaker')
+} //Blue
+  else if (target === 'blue' && blueCounter === 0 || target === 'blue' && blueCounter === 3){
+  beakerBlue0.classList.remove('hideBeaker')
+} else if (target === 'blue' && blueCounter === 1){
+  beakerBlue0.classList.add('hideBeaker')
+  beakerBlue1.classList.remove('hideBeaker')
+} else if (target === 'blue' && blueCounter === 2){
+  beakerBlue1.classList.add('hideBeaker')
+  beakerBlue2.classList.remove('hideBeaker')
+} //Purple
+  else if (target === 'purple' && purpleCounter === 0 || target === 'purple' && purpleCounter === 3){
+  beakerPurple0.classList.remove('hideBeaker')
+} else if (target === 'purple' && purpleCounter === 1){
+  beakerPurple0.classList.add('hideBeaker')
+  beakerPurple1.classList.remove('hideBeaker')
+} else if (target === 'purple' && purpleCounter === 2){
+  beakerPurple1.classList.add('hideBeaker')
+  beakerPurple2.classList.remove('hideBeaker')
+} //Green
+  else if (target === 'green' && greenCounter === 0 || target === 'green' && greenCounter === 3){
+    beakerGreen0.classList.remove('hideBeaker')
+} else if (target === 'green' && greenCounter === 1){
+  beakerGreen0.classList.add('hideBeaker')
+  beakerGreen1.classList.remove('hideBeaker')
+} else if (target === 'green' && greenCounter === 2){
+  beakerGreen1.classList.add('hideBeaker')
+  beakerGreen2.classList.remove('hideBeaker')
+} 
 
 
 }
+
+
+
 
   //Ball Movement (put behavior here)
 function draw() {
@@ -265,9 +389,13 @@ function draw() {
   ctx.font = "30px Arial";
   ctx.fillText("Target: " + target[0].toUpperCase() +  
   target.slice(1), 10, 50);
-  
-
+  ctx.fillStyle='black';
+  ctx.fillText("Lives: " + lives, 200, 50);
+  ctx.fillStyle='black';
   ballsFall();
+  collision()
+
+  
  
 
 }
@@ -289,6 +417,27 @@ let ballInterval = setInterval(draw, 10);
 //clearInterval(ballInterval)
 
 }
+//***********
   
 
+
+function createGameOverScreen(){
+  removeGameScreen();
+  gameOverScreen = buildDom(`
+  
+    <div id="game-over-div">
+
+          
+          <img class="sad-scientist"src="img/SadScientistPng.png>
+          <h1 id="game-over-text">Game Over!</h1>
+
+
+    </div>
+    
+    `);
+
+    document.body.appendChild(gameOverScreen);
+  return gameOverScreen;
+  
+}
 
