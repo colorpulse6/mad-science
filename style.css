@@ -47,7 +47,7 @@ align-items:center;
 .beakerClass{
     width:100px;
     height:100px;
-    margin-left:-80px;
+    margin-left:-100px;
     margin-top:50px;
 }
 .hideBeaker{
@@ -64,9 +64,25 @@ align-items:center;
 
 #game-over-div{
     display:flex;
-    justify-content: center;
-    margin-top: 200px;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0px;
     
+}
+
+#game-over-div h1{
+    font-size: 50px;
+    color:white;
+    
+}
+
+#restart-button{
+    width:150px;
+    padding:20px;
+    margin:50px;
+    border-radius: 25%;
+    font-size: 20px;
+    background-color: #15C62D;
 }
 
 
