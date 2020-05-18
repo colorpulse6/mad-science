@@ -43,14 +43,17 @@ function main() {
         splashScreen.remove();
       }
 
+
+
       
   
-
     createSplashScreen();
     
 }
   window.addEventListener("load", main);
 
+
+  
 
 
 
@@ -225,14 +228,19 @@ function collision(){
     if(object.y === canvas.height && object.color === target){
         lives -= 1
         console.log(lives)
+        if(lives === -1){
+          break;
+        }
         }   
-        if(lives === 0){
-          createGameOverScreen()
-        }  
+          
+        
   }
-  
-
+  if(lives === 0){
+     clearInterval(ballInterval)     
+    createGameOverScreen()
+  }
 }
+
 
 
 
@@ -418,26 +426,36 @@ let ballInterval = setInterval(draw, 10);
 
 }
 //***********
+
+function removeGameScreen(){
+  gameScreen.remove()
+}
   
-
-
 function createGameOverScreen(){
-  removeGameScreen();
-  gameOverScreen = buildDom(`
+  
+  let gameOverScreen = buildDom(`
   
     <div id="game-over-div">
-
-          
-          <img class="sad-scientist"src="img/SadScientistPng.png>
-          <h1 id="game-over-text">Game Over!</h1>
-
-
-    </div>
-    
+      <img class="sad-scientist"src="img/SadScientistPng.png">
+      <h1 id="game-over-text">Game Over!</h1>
+      <button id="restart-button">Restart</button>
+    </div>    
     `);
-
+    
     document.body.appendChild(gameOverScreen);
+    removeGameScreen();
+
+    var restartButton = gameOverScreen.querySelector("#restart-button");
+
+    restartButton.addEventListener("click", function() {
+      gameOverScreen.remove();
+      main();
+      
+    });
+
   return gameOverScreen;
   
 }
+
+
 
