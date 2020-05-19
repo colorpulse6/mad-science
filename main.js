@@ -455,7 +455,8 @@ function draw() {
   
   ctx.clearRect(0, 0, canvas.width, canvas.height - 20);
   //Draw Background
-  //ctx.drawImage(bg, 0, 0,canvas.width,canvas.height-20);
+  ctx.drawImage(bg, 0, 0,canvas.width,canvas.height-20);
+  
   DrawText();
   ballsFall();
  

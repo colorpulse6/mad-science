@@ -1,5 +1,6 @@
 body {
     background:black;
+    
 }
 #scientist-div{
 display:flex;
@@ -46,6 +47,9 @@ align-items:center;
 #canvas {
     padding-top:50px;
     border-bottom:3px solid black;
+    cursor: url(img/DropperWhite.ico), auto;
+    
+
 }
 
 #beaker-div {
