@@ -175,7 +175,7 @@ let beakerGreen3 = document.getElementById('beakerGreen3');
 
 let ballArray = []
 let spawnRate = 400; //(more is less)
-let rateOfDescent = 2;
+let rateOfDescent = 5;
 let lastSpawn = -10
 
 //Get cursor position
