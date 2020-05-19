@@ -244,17 +244,19 @@ function ballsFall(){
     ctx.fill();
     if (object.y === canvas.width - 50){
       object.r = 0;
-      ctx.drawImage(dropletRed, object.x + object.r, canvas.height - 100,100,100);
+      
+      
     }
     
     //Collision Test
     if(object.y === canvas.height && object.color === target && object.r === 0){
       lives -= 1
       mySound.play();
+      ctx.drawImage(dropletRed, object.x - 50, canvas.height - 100,100,100);
       console.log(lives)
       if(lives === -1){
         break;
-      }
+      } 
     }
   }
   //End Game
@@ -278,6 +280,7 @@ let score = 0
 function grabBall(){ 
   for (let i = 0; i<ballArray.length; i++){
     let object = ballArray[i];
+    
     //Click Test
       if (mouseX >= object.x && mouseX <= object.x + object.r || mouseY >= object.y && mouseY <= object.y + object.r) {
         clicked = true;
@@ -287,7 +290,7 @@ function grabBall(){
           redCounter ++;
           lives ++;
           score += 10;
-          object.r = 0;
+          ballArray.splice(i, 1);
           
             if(redCounter === 3){
             beakerRed2.classList.add('hideBeaker')
@@ -301,7 +304,8 @@ function grabBall(){
           blueCounter ++; // Count until Full (3)
           lives ++;// Increase Lives
           score += 10; //Add to Score
-          object.r = 0; //Clear Ball
+          ballArray.splice(i, 1); //Clear Ball
+          console.log(i)
           
             if (blueCounter === 3){
               beakerBlue2.classList.add('hideBeaker') // Hide Beaker 2
@@ -314,7 +318,7 @@ function grabBall(){
           purpleCounter ++;
           lives ++;
           score += 10;
-          object.r = 0;
+          ballArray.splice(i, 1);
           
           if (purpleCounter === 3){
             beakerPurple2.classList.add('hideBeaker')
@@ -328,7 +332,7 @@ function grabBall(){
           lives ++;
           score += 10;
           console.log('You got a green! ' + greenCounter);
-          object.r = 0;
+          ballArray.splice(i, 1);
           
           if (greenCounter === 3){
             beakerGreen2.classList.add('hideBeaker')
