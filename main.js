@@ -23,6 +23,7 @@ function main() {
             <div id="directions" class="blinking">
               <h1>Click the Balls!</h1>
               <h1>Fill the Beakers!</h1>
+              <h1>Each Beaker Holds 3 Ingredients!</h1>
             </div>
             
             <button id="start-button">Commence!</button>
@@ -141,9 +142,6 @@ let dropletPurple = new Image();
 dropletPurple.src = "img/dropletPurple.png";
 let dropletGreen = new Image();
 dropletGreen.src = "img/dropletGreen.png";
-
-
-
 
 
 

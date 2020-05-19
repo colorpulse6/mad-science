@@ -20,6 +20,7 @@ align-items:center;
     color:white;
     font-size: 13px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align:center;
 }
 
 #start-button{
@@ -91,7 +92,7 @@ align-items:center;
     border-radius: 25%;
     font-size: 20px;
     background-color: #15C62D;
-    margin-left:120px;
+    margin-left:145px;
 }
 
 
