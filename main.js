@@ -1,5 +1,31 @@
 // to modify the DOM depending on the screen
 
+//Sounds
+function sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}
+let mySplatSound = new sound("sounds/Splat.mp3");
+let myFillSound1 = new sound("sounds/Rise01.mp3")
+let myFillSound2 = new sound("sounds/Rise03.mp3")
+let myFillSound3 = new sound("sounds/Rise02.mp3")
+let splashMusic = new sound("sounds/Filthy Flowers.mp3")
+let gameMusic = new sound("sounds/Pictures.mp3");
+let gameOverSound = new sound("sounds/gameOver.wav")
+
+let bg = new Image();
+
+
 function buildDom(htmlString) {
     var div = document.createElement("div");
   
@@ -16,6 +42,7 @@ function main() {
   
     // SETTING GAME SPLASH SCREEN
     function createSplashScreen() {
+      splashMusic.play()
       splashScreen = buildDom(`
         <div id="scientist-div">
             <img id="scientist" src="img/Poison Scientist.svg">
@@ -42,6 +69,7 @@ function main() {
 
     function removeSplashScreen() {
         splashScreen.remove();
+        splashMusic.stop();
       }
 
 
@@ -67,27 +95,34 @@ function createGameScreen() {
     <div id="canvas-div">
     <img id="science-text2" src="img/Mad-science-text.png">
       <canvas id="canvas" width="500" height="500"></canvas>
+      <div class="beakerDivFinished">
+          <img id="beakerBlue3" class="hideBeaker"src="img/Nic Beaker/Beaker png/blue3.png">
+          <img id="beakerRed3" class="hideBeaker"src="img/Nic Beaker/Beaker png/red3.png">
+          <img id="beakerPurple3" class="hideBeaker"src="img/Nic Beaker/Beaker png/purple3.png">
+          <img id="beakerGreen3"  class="hideBeaker"src="img/Nic Beaker/Beaker png/green3.png">
+      
+      </div>
         <div id="beaker-div">
           
           <img id="beakerBlue0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue0.png">
           <img id="beakerBlue1" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue1.png">
           <img id="beakerBlue2" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue2.png">
-          <img id="beakerBlue3" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue3.png">
+          
 
           <img id="beakerRed0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red0.png">
           <img id="beakerRed1" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red1.png">
           <img id="beakerRed2" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red2.png">
-          <img id="beakerRed3" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red3.png">
+          
 
           <img id="beakerPurple0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple0.png">
           <img id="beakerPurple1" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple1.png">
           <img id="beakerPurple2" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple2.png">
-          <img id="beakerPurple3" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple3.png">
+          
 
           <img id="beakerGreen0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green0.png">
           <img id="beakerGreen1"  class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green1.png">
           <img id="beakerGreen2"  class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green2.png">
-          <img id="beakerGreen3"  class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green3.png">
+          
 
           
           
@@ -106,29 +141,6 @@ function createGameScreen() {
 function startGame(){ 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-//Sounds
-function sound(src) {
-  this.sound = document.createElement("audio");
-  this.sound.src = src;
-  this.sound.setAttribute("preload", "auto");
-  this.sound.setAttribute("controls", "none");
-  this.sound.style.display = "none";
-  document.body.appendChild(this.sound);
-  this.play = function(){
-    this.sound.play();
-  }
-  this.stop = function(){
-    this.sound.pause();
-  }
-}
-let mySplatSound = new sound("sounds/Splat.mp3");
-let myFillSound1 = new sound("sounds/Rise01.mp3")
-let myFillSound2 = new sound("sounds/Rise03.mp3")
-let myFillSound3 = new sound("sounds/Rise02.mp3")
-let gameMusic = new sound("sounds/RapSong.mp3");
-let gameOverSound = new sound("sounds/gameOver.wav")
-
-let bg = new Image();
 
 gameMusic.play();
 
@@ -151,6 +163,8 @@ ctx.fillStyle='white';
 
 
 //Get Beakers
+let beakerDiv = document.getElementById('beaker-div')
+
 let beakerBlue0 = document.getElementById('beakerBlue0');
 let beakerBlue1 = document.getElementById('beakerBlue1');
 let beakerBlue2 = document.getElementById('beakerBlue2');
@@ -171,11 +185,18 @@ let beakerGreen1 = document.getElementById('beakerGreen1');
 let beakerGreen2 = document.getElementById('beakerGreen2');
 let beakerGreen3 = document.getElementById('beakerGreen3');
 
+//Move Beakers
+function move(img) {
+  var left = parseInt(img.style.left);
 
+  img.style.position = "relative";
+  img.style.left = (left+20)+"px";
+  
+}
 
 let ballArray = []
-let spawnRate = 400; //(more is less)
-let rateOfDescent = 5;
+let spawnRate = 200; //(more is less)
+let rateOfDescent = 2;
 let lastSpawn = -10
 
 //Get cursor position
@@ -323,8 +344,8 @@ function grabBall(){
             if(redCounter === 3){
             beakerRed2.classList.add('hideBeaker')
             beakerRed3.classList.remove('hideBeaker')
+            
             redCounter = 0;
-            beakerRed3.classList.add('hideBeaker')
             generateTarget();
           }
           
@@ -338,9 +359,9 @@ function grabBall(){
             if (blueCounter === 3){
               beakerBlue2.classList.add('hideBeaker') // Hide Beaker 2
               beakerBlue3.classList.remove('hideBeaker') //Show Beaker 3
-                blueCounter = 0; //Reset Counter
-                beakerBlue3.classList.add('hideBeaker')
-                generateTarget();
+              
+              blueCounter = 0; //Reset Counter
+              generateTarget();
           }
         } else if (object.color === 'purple' && target === 'purple'){
           purpleCounter ++;
@@ -351,8 +372,8 @@ function grabBall(){
           if (purpleCounter === 3){
             beakerPurple2.classList.add('hideBeaker')
             beakerPurple3.classList.remove('hideBeaker')
+            
             purpleCounter = 0;
-            beakerPurple3.classList.add('hideBeaker')
             generateTarget();
           }
         } else if (object.color === 'green' && target === 'green'){
@@ -365,8 +386,9 @@ function grabBall(){
           if (greenCounter === 3){
             beakerGreen2.classList.add('hideBeaker')
             beakerGreen3.classList.remove('hideBeaker')
+            
             greenCounter = 0;
-            beakerGreen3.classList.add('hideBeaker')
+            
             generateTarget();
           }
         } 
@@ -379,9 +401,10 @@ function grabBall(){
   } //End of ForLoop
       //Change Beaker
     //Red
-    if (target === 'red' && redCounter === 0 || target === 'red' && redCounter === 3){
-      myFillSound3.play();
+    if (target === 'red' && redCounter === 0){
       beakerRed0.classList.remove('hideBeaker')
+      myFillSound3.play();
+      
     } else if (target === 'red' && redCounter === 1){
       myFillSound1.play();
       beakerRed0.classList.add('hideBeaker')
@@ -391,9 +414,10 @@ function grabBall(){
       beakerRed1.classList.add('hideBeaker')
       beakerRed2.classList.remove('hideBeaker')
     } //Blue
-      else if (target === 'blue' && blueCounter === 0 || target === 'blue' && blueCounter === 3){
-      myFillSound3.play();
+      else if (target === 'blue' && blueCounter === 0){
       beakerBlue0.classList.remove('hideBeaker')
+
+      myFillSound3.play();
     } else if (target === 'blue' && blueCounter === 1){
       myFillSound1.play();
       beakerBlue0.classList.add('hideBeaker')
@@ -403,9 +427,10 @@ function grabBall(){
       beakerBlue1.classList.add('hideBeaker')
       beakerBlue2.classList.remove('hideBeaker')
     } //Purple
-      else if (target === 'purple' && purpleCounter === 0 || target === 'purple' && purpleCounter === 3){
+      else if (target === 'purple' && purpleCounter === 0){
+        beakerPurple0.classList.remove('hideBeaker')
+
         myFillSound3.play();
-      beakerPurple0.classList.remove('hideBeaker')
     } else if (target === 'purple' && purpleCounter === 1){
       myFillSound1.play();
       beakerPurple0.classList.add('hideBeaker')
@@ -415,9 +440,10 @@ function grabBall(){
       beakerPurple1.classList.add('hideBeaker')
       beakerPurple2.classList.remove('hideBeaker')
     } //Green
-      else if (target === 'green' && greenCounter === 0 || target === 'green' && greenCounter === 3){
+      else if (target === 'green' && greenCounter === 0){
+        beakerGreen0.classList.remove('hideBeaker')
+
         myFillSound3.play();
-      beakerGreen0.classList.remove('hideBeaker')
     } else if (target === 'green' && greenCounter === 1){
       myFillSound1.play();
       beakerGreen0.classList.add('hideBeaker')
