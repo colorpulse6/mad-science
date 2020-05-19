@@ -110,6 +110,12 @@ let bg = new Image();
 //Draw Splat and Sound
 let dropletRed = new Image();
 dropletRed.src = "img/DropletRed.png";
+let dropletBlue = new Image();
+dropletBlue.src = "img/dropletBlue.png";
+let dropletPurple = new Image();
+dropletPurple.src = "img/dropletPurple.png";
+let dropletGreen = new Image();
+dropletGreen.src = "img/dropletGreen.png";
 
 function sound(src) {
   this.sound = document.createElement("audio");
@@ -251,8 +257,17 @@ function ballsFall(){
     //Collision Test
     if(object.y === canvas.height && object.color === target && object.r === 0){
       lives -= 1
+      if(target=== 'red'){
+        ctx.drawImage(dropletRed, object.x - 50, canvas.height - 100,100,100);
+      }else if(target === 'blue'){
+        ctx.drawImage(dropletBlue, object.x - 50, canvas.height - 100,100,100);
+      }else if(target === 'purple'){
+        ctx.drawImage(dropletPurple, object.x - 50, canvas.height - 100,100,100);
+      }else if(target === 'green'){
+        ctx.drawImage(dropletGreen, object.x - 50, canvas.height - 100,100,100);
+      }
+      
       mySound.play();
-      ctx.drawImage(dropletRed, object.x - 50, canvas.height - 100,100,100);
       console.log(lives)
       if(lives === -1){
         break;
