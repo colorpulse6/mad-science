@@ -53,10 +53,10 @@ align-items:center;
     align-items: flex-start;
 }
 .beakerClass{
-    width:100px;
-    height:100px;
+    width:180px;
+    height:180px;
     margin-left:-300px;
-    margin-top:50px;
+    margin-top:150px;
 }
 .hideBeaker{
     display:none;
@@ -91,7 +91,7 @@ align-items:center;
     border-radius: 25%;
     font-size: 20px;
     background-color: #15C62D;
-    margin-left:135px;
+    margin-left:120px;
 }
 
 

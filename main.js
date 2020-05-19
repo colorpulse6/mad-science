@@ -105,18 +105,7 @@ function createGameScreen() {
 function startGame(){ 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-let bg = new Image();
-
-//Draw Splat and Sound
-let dropletRed = new Image();
-dropletRed.src = "img/DropletRed.png";
-let dropletBlue = new Image();
-dropletBlue.src = "img/dropletBlue.png";
-let dropletPurple = new Image();
-dropletPurple.src = "img/dropletPurple.png";
-let dropletGreen = new Image();
-dropletGreen.src = "img/dropletGreen.png";
-
+//Sounds
 function sound(src) {
   this.sound = document.createElement("audio");
   this.sound.src = src;
@@ -131,7 +120,30 @@ function sound(src) {
     this.sound.pause();
   }
 }
-let mySound = new sound("sounds/Splat.mp3");
+let mySplatSound = new sound("sounds/Splat.mp3");
+let myFillSound1 = new sound("sounds/Rise01.mp3")
+let myFillSound2 = new sound("sounds/Rise03.mp3")
+let myFillSound3 = new sound("sounds/Rise02.mp3")
+let gameMusic = new sound("sounds/RapSong.mp3");
+let gameOverSound = new sound("sounds/gameOver.wav")
+
+let bg = new Image();
+
+gameMusic.play();
+
+
+//Draw Splat 
+let dropletRed = new Image();
+dropletRed.src = "img/DropletRed.png";
+let dropletBlue = new Image();
+dropletBlue.src = "img/dropletBlue.png";
+let dropletPurple = new Image();
+dropletPurple.src = "img/dropletPurple.png";
+let dropletGreen = new Image();
+dropletGreen.src = "img/dropletGreen.png";
+
+
+
 
 
 
@@ -267,7 +279,7 @@ function ballsFall(){
         ctx.drawImage(dropletGreen, object.x - 50, canvas.height - 100,100,100);
       }
       
-      mySound.play();
+      mySplatSound.play();
       console.log(lives)
       if(lives === -1){
         break;
@@ -276,8 +288,11 @@ function ballsFall(){
   }
   //End Game
   if(lives === 0){
-    clearInterval(ballInterval)     
+    clearInterval(ballInterval)   
+    gameMusic.stop();  
+    gameOverSound.play();
     createGameOverScreen(score)
+    
  }
 }
 
@@ -367,38 +382,50 @@ function grabBall(){
       //Change Beaker
     //Red
     if (target === 'red' && redCounter === 0 || target === 'red' && redCounter === 3){
+      myFillSound3.play();
       beakerRed0.classList.remove('hideBeaker')
     } else if (target === 'red' && redCounter === 1){
+      myFillSound1.play();
       beakerRed0.classList.add('hideBeaker')
       beakerRed1.classList.remove('hideBeaker')
     } else if (target === 'red' && redCounter === 2){
+      myFillSound2.play();
       beakerRed1.classList.add('hideBeaker')
       beakerRed2.classList.remove('hideBeaker')
     } //Blue
       else if (target === 'blue' && blueCounter === 0 || target === 'blue' && blueCounter === 3){
+      myFillSound3.play();
       beakerBlue0.classList.remove('hideBeaker')
     } else if (target === 'blue' && blueCounter === 1){
+      myFillSound1.play();
       beakerBlue0.classList.add('hideBeaker')
       beakerBlue1.classList.remove('hideBeaker')
     } else if (target === 'blue' && blueCounter === 2){
+      myFillSound2.play();
       beakerBlue1.classList.add('hideBeaker')
       beakerBlue2.classList.remove('hideBeaker')
     } //Purple
       else if (target === 'purple' && purpleCounter === 0 || target === 'purple' && purpleCounter === 3){
+        myFillSound3.play();
       beakerPurple0.classList.remove('hideBeaker')
     } else if (target === 'purple' && purpleCounter === 1){
+      myFillSound1.play();
       beakerPurple0.classList.add('hideBeaker')
       beakerPurple1.classList.remove('hideBeaker')
     } else if (target === 'purple' && purpleCounter === 2){
+      myFillSound2.play();
       beakerPurple1.classList.add('hideBeaker')
       beakerPurple2.classList.remove('hideBeaker')
     } //Green
       else if (target === 'green' && greenCounter === 0 || target === 'green' && greenCounter === 3){
+        myFillSound3.play();
       beakerGreen0.classList.remove('hideBeaker')
     } else if (target === 'green' && greenCounter === 1){
+      myFillSound1.play();
       beakerGreen0.classList.add('hideBeaker')
       beakerGreen1.classList.remove('hideBeaker')
     } else if (target === 'green' && greenCounter === 2){
+      myFillSound2.play();
       beakerGreen1.classList.add('hideBeaker')
       beakerGreen2.classList.remove('hideBeaker')
     }
@@ -454,6 +481,8 @@ let ballInterval = setInterval(draw, 10);
 
 function removeGameScreen(){
   gameScreen.remove()
+  
+  
 }
   
 function createGameOverScreen(num){
@@ -470,6 +499,7 @@ function createGameOverScreen(num){
     `);
     document.body.appendChild(gameOverScreen);
     removeGameScreen();
+    
 
     var finalScore = gameOverScreen.querySelector("#final-score");
     finalScore.innerHTML = `FINAL SCORE: ${num}`
