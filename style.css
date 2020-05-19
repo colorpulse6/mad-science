@@ -1,5 +1,5 @@
 body {
-    background-color:black;
+    background:black;
 }
 #scientist-div{
 display:flex;
@@ -31,14 +31,22 @@ align-items:center;
     background-color: #15C62D;
     
 }
-#canvas-div{
-    width:800px;
-    height:500px;
-    display:flex;
-    justify-content: space-around;
-   margin-left:100px;
 
+#science-text2 {
+    width:500px;
+    position: absolute;
 }
+
+#canvas-div{ 
+    display:flex;
+    justify-content: center;
+}
+
+#canvas {
+    padding-top:50px;
+    border-bottom:3px solid black;
+}
+
 #beaker-div {
     display:flex;
     flex-direction: column;
@@ -47,7 +55,7 @@ align-items:center;
 .beakerClass{
     width:100px;
     height:100px;
-    margin-left:-100px;
+    margin-left:-300px;
     margin-top:50px;
 }
 .hideBeaker{
@@ -83,6 +91,7 @@ align-items:center;
     border-radius: 25%;
     font-size: 20px;
     background-color: #15C62D;
+    margin-left:135px;
 }
 
 
