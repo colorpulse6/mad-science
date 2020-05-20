@@ -52,6 +52,9 @@ Mad Science is a game where the player must click on the appropriate balls falli
 ### Trello
 [Link url](https://trello.com/b/YK9Q8jrP/mad-science)
 
+### Presentation Slides
+[Link url](https://docs.google.com/presentation/d/1JG7FtWcIe4237MfqhgvwQizonqJs8xoPd3DaFqMgwZU/edit?usp=sharing)
+
 ### Git
 URLs for the project repo
 - [Link url](https://github.com/colorpulse6/mad-science)
