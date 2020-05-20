@@ -39,7 +39,7 @@ function main() {
     var game;
     var splashScreen;
     var gameOverScreen;
-  
+
     // SETTING GAME SPLASH SCREEN
     function createSplashScreen() {
       splashMusic.play()
@@ -57,7 +57,7 @@ function main() {
         </div>`);
   
       document.body.appendChild(splashScreen);
-  
+
       var startButton = splashScreen.querySelector("#start-button");
   
       startButton.addEventListener("click", function() {
@@ -65,17 +65,14 @@ function main() {
         createGameScreen();
         startGame();
       });
-    }
 
+    }
+//Remove Splash Screen
     function removeSplashScreen() {
         splashScreen.remove();
         splashMusic.stop();
       }
 
-
-
-      
-  
     createSplashScreen();
     
 }
@@ -122,10 +119,7 @@ function createGameScreen() {
           <img id="beakerGreen0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green0.png">
           <img id="beakerGreen1"  class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green1.png">
           <img id="beakerGreen2"  class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green2.png">
-          
-
-          
-          
+   
 
        </div>
 
@@ -185,17 +179,9 @@ let beakerGreen1 = document.getElementById('beakerGreen1');
 let beakerGreen2 = document.getElementById('beakerGreen2');
 let beakerGreen3 = document.getElementById('beakerGreen3');
 
-//Move Beakers
-function move(img) {
-  var left = parseInt(img.style.left);
 
-  img.style.position = "relative";
-  img.style.left = (left+20)+"px";
-  
-}
-
-let ballArray = []
-let spawnRate = 200; //(more is less)
+let ballArray = [];
+let spawnRate = 400; //(more is less)
 let rateOfDescent = 2;
 let lastSpawn = -10
 
@@ -208,7 +194,7 @@ function getCursorPosition(canvas, event) {
      rect = canvas.getBoundingClientRect()
      mouseX = event.clientX - rect.left;
      mouseY = event.clientY - rect.top;
-     console.log("x: " + mouseX + " y: " + mouseY)
+     //console.log("x: " + mouseX + " y: " + mouseY)
 }
 
 
@@ -227,7 +213,7 @@ getRandomColor()
 //Spawn Balls 
 function makeBalls(){
   let balls = {
-    x: Math.random() * (canvas.width - 50) + 15,
+    x: Math.random() * (canvas.width - 80) + 15,
     y: 0,
     r: 20,
     color:randomColor  
@@ -257,7 +243,6 @@ generateTarget()
 
 
 let lives = 5;
-let clicked = false;
 
 
 
@@ -279,40 +264,41 @@ function ballsFall(){
     ctx.closePath();
     ctx.fillStyle = object.color;
     ctx.fill();
-    if (object.y === canvas.width - 50){
+    if (object.y >= canvas.height - 50){
       object.r = 0;
+
+        //Collision Test
+      if(object.color === target && object.r === 0){
+        lives -= 1
       
-      
+        if(target === 'red'){
+          ctx.drawImage(dropletRed, object.x, canvas.height - 100,100,100);
+        }else if(target === 'blue'){
+          ctx.drawImage(dropletBlue, object.x, canvas.height - 100,100,100);
+        }else if(target === 'purple'){
+          ctx.drawImage(dropletPurple, object.x, canvas.height - 100,100,100);
+        }else if(target === 'green'){
+          ctx.drawImage(dropletGreen, object.x, canvas.height - 100,100,100);
+        }
+        
+        mySplatSound.play();
+      //console.log(lives)
+       
     }
-    
-    //Collision Test
-    if(object.y === canvas.height && object.color === target && object.r === 0){
-      lives -= 1
-      if(target=== 'red'){
-        ctx.drawImage(dropletRed, object.x - 50, canvas.height - 100,100,100);
-      }else if(target === 'blue'){
-        ctx.drawImage(dropletBlue, object.x - 50, canvas.height - 100,100,100);
-      }else if(target === 'purple'){
-        ctx.drawImage(dropletPurple, object.x - 50, canvas.height - 100,100,100);
-      }else if(target === 'green'){
-        ctx.drawImage(dropletGreen, object.x - 50, canvas.height - 100,100,100);
-      }
-      
-      mySplatSound.play();
-      console.log(lives)
-      if(lives === -1){
-        break;
-      } 
-    }
-  }
-  //End Game
+    ballArray.shift();
+    //End Game
   if(lives === 0){
-    clearInterval(ballInterval)   
-    gameMusic.stop();  
-    gameOverSound.play();
-    createGameOverScreen(score)
+  clearInterval(ballInterval)   
+  gameMusic.stop();  
+  gameOverSound.play();
+  createGameOverScreen(score)
+  
+  }
+    }
     
- }
+    
+  }
+  
 }
 
 
@@ -323,8 +309,25 @@ let redCounter = 0;
 let blueCounter = 0;
 let purpleCounter = 0;
 let greenCounter = 0;
+let advanceLevelCounter = 0;
 let score = 0
+let level = 1;
 
+//Advance Level
+function advanceLevel(){
+  rateOfDescent += 0.3;
+  spawnRate -= 70;
+  advanceLevelCounter = 0;
+  level ++;
+  console.log(rateOfDescent)
+  beakerRed3.classList.add('hideBeaker')
+  beakerBlue3.classList.add('hideBeaker') 
+  beakerPurple3.classList.add('hideBeaker')
+  beakerGreen3.classList.add('hideBeaker')
+  console.log(level)
+
+
+}
 
 function grabBall(){ 
   for (let i = 0; i<ballArray.length; i++){
@@ -332,10 +335,12 @@ function grabBall(){
     
     //Click Test
       if (mouseX >= object.x && mouseX <= object.x + object.r || mouseY >= object.y && mouseY <= object.y + object.r) {
-        clicked = true;
-        console.log('clicked')
+        console.log(redCounter)
+        //console.log('clicked')
+        
          //Test of ball is target color
-        if (object.color === 'red' && target === 'red'){
+
+         if (object.color === 'red' && target === 'red'){
           redCounter ++;
           lives ++;
           score += 10;
@@ -344,7 +349,7 @@ function grabBall(){
             if(redCounter === 3){
             beakerRed2.classList.add('hideBeaker')
             beakerRed3.classList.remove('hideBeaker')
-            
+            advanceLevelCounter ++;
             redCounter = 0;
             generateTarget();
           }
@@ -354,12 +359,12 @@ function grabBall(){
           lives ++;// Increase Lives
           score += 10; //Add to Score
           ballArray.splice(i, 1); //Clear Ball
-          console.log(i)
+          //console.log(i)
           
             if (blueCounter === 3){
               beakerBlue2.classList.add('hideBeaker') // Hide Beaker 2
               beakerBlue3.classList.remove('hideBeaker') //Show Beaker 3
-              
+              advanceLevelCounter ++; //Count to next level
               blueCounter = 0; //Reset Counter
               generateTarget();
           }
@@ -372,7 +377,7 @@ function grabBall(){
           if (purpleCounter === 3){
             beakerPurple2.classList.add('hideBeaker')
             beakerPurple3.classList.remove('hideBeaker')
-            
+            advanceLevelCounter ++;
             purpleCounter = 0;
             generateTarget();
           }
@@ -386,12 +391,17 @@ function grabBall(){
           if (greenCounter === 3){
             beakerGreen2.classList.add('hideBeaker')
             beakerGreen3.classList.remove('hideBeaker')
-            
+            advanceLevelCounter ++;
             greenCounter = 0;
             
             generateTarget();
           }
         } 
+        //Advance Level
+        if(advanceLevelCounter === 4){
+         
+          advanceLevel();
+        }
         
       }  
 
@@ -468,26 +478,22 @@ function DrawText(){
   ctx.font = "30px Arial";
   ctx.fillText("Target: " + target[0].toUpperCase() +  
   target.slice(1), 10, 50);
-  
   ctx.fillText("Lives: " + lives, 380, 50);
   ctx.fillStyle='white';
   ctx.fillText("Score: " + score, 10, 150);
+  ctx.fillStyle='white';
+  ctx.fillText("Level: " + level, 350, 150);
   
 }
 
 
   //Ball Movement (put behavior here)
 function draw() {
-  
   ctx.clearRect(0, 0, canvas.width, canvas.height - 20);
   //Draw Background
-  ctx.drawImage(bg, 0, 0,canvas.width,canvas.height-20);
-  
+  //ctx.drawImage(bg, 0, 0,canvas.width,canvas.height-20);
   DrawText();
   ballsFall();
- 
-  
-
 }
 
 
@@ -516,10 +522,8 @@ function createGameOverScreen(num){
     <div id="game-over-div">
       <h1 id="game-over-text">Game Over!</h1>
       <img class="sad-scientist"src="img/SadScientistPng.png">
-      <div>
         <button id="restart-button">Restart</button>
-        <h1 id="final-score">Final Score</h1>
-      </div>
+        <h1 id="final-score" class= "blinking">Final Score</h1>
     </div>    
     `);
     document.body.appendChild(gameOverScreen);
