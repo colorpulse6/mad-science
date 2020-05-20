@@ -305,7 +305,7 @@ function ballsFall(){
     }
     ballArray.shift();
     //End Game
-  if(lives === 100){
+  if(lives === 0){
   clearInterval(ballInterval)   
   gameMusic.stop();  
   gameOverSound.play();
