@@ -49,9 +49,11 @@ function main() {
             <img id="scientist" src="img/Poison Scientist.svg">
             <img id="science-text" src="img/Mad-science-text.png">
             <div id="directions" class="blinking">
-              <h1>Click the Balls!</h1>
-              <h1>Fill the Beakers!</h1>
-              <h1>Each Beaker Holds 3 Ingredients!</h1>
+              <h2>Click the Balls!</h2>
+              <h2>Fill the Beakers!</h2>
+              <h2>Each Beaker Holds 3 Ingredients!</h2>
+              <h2>Fill all the Beakers for the Nobel Prize!</h2>
+              <h2>Avoid White Balls!</h2>
             </div>
             
             <button id="start-button">Commence!</button>
@@ -102,6 +104,8 @@ function createGameScreen() {
       <img id="np8" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
       <img id="np9" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
       <img id="np10" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np11" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np12" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
     </div>
     <img id="science-text2" src="img/Mad-science-text.png">
       <canvas id="canvas" width="500" height="500"></canvas>
@@ -203,8 +207,10 @@ let prize7 = document.getElementById('np7')
 let prize8 = document.getElementById('np8')
 let prize9 = document.getElementById('np9')
 let prize10 = document.getElementById('np10')
+let prize11 = document.getElementById('np11')
+let prize12 = document.getElementById('np12')
 
-let prizesArray = [prize1,prize2,prize3,prize4,prize5,prize6,prize7,prize8,prize9,prize10];
+let prizesArray = [prize1,prize2,prize3,prize4,prize5,prize6,prize7,prize8,prize9,prize10,prize11,prize12];
 
 let ballArray = [];
 let spawnRate = 400; //(more is less)
@@ -346,7 +352,8 @@ let level = 1;
 //Advance Level
 function advanceLevel(){
   rateOfDescent += 0.3;
-  spawnRate -= 70;
+  spawnRate -= 50;
+  
   advanceLevelCounter = 0;
   level ++;
   console.log(rateOfDescent)
@@ -479,7 +486,7 @@ function grabBall(){
         //Advance Level
         if (!beakerBlue3.classList.contains('hideBeaker') && !beakerRed3.classList.contains('hideBeaker') && !beakerGreen3.classList.contains('hideBeaker') && !beakerPurple3.classList.contains('hideBeaker')){
           advanceLevel();
-          
+
         }
         
       }  

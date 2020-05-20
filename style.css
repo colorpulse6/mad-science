@@ -48,7 +48,6 @@ align-items:center;
 #canvas {
     padding-top:50px;
     border-bottom:3px solid black;
-    margin:none;
     cursor: url(img/DropperWhite.ico), auto;
    
     
@@ -56,13 +55,10 @@ align-items:center;
 }
 
 #nobel-prizes{
-    width:50px;
-    display:flex;
-    flex-direction: row;
-    align-items: flex-start;
-    
-    
-    
+    width:200px;
+    margin-left:100px;
+    margin-right: -300px;
+    margin-top:100px
     
 }
 
