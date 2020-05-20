@@ -290,13 +290,13 @@ function ballsFall(){
         lives -= 1
       
         if(target === 'red'){
-          ctx.drawImage(dropletRed, object.x, canvas.height - 100,100,100);
+          ctx.drawImage(dropletRed, object.x - 50, canvas.height - 100,100,100);
         }else if(target === 'blue'){
-          ctx.drawImage(dropletBlue, object.x, canvas.height - 100,100,100);
+          ctx.drawImage(dropletBlue, object.x - 50, canvas.height - 100,100,100);
         }else if(target === 'purple'){
-          ctx.drawImage(dropletPurple, object.x, canvas.height - 100,100,100);
+          ctx.drawImage(dropletPurple, object.x - 50, canvas.height - 100,100,100);
         }else if(target === 'green'){
-          ctx.drawImage(dropletGreen, object.x, canvas.height - 100,100,100);
+          ctx.drawImage(dropletGreen, object.x - 50, canvas.height - 100,100,100);
         }
         
         mySplatSound.play();
