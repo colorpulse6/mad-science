@@ -43,7 +43,7 @@ function main() {
 
     // SETTING GAME SPLASH SCREEN
     function createSplashScreen() {
-      //splashMusic.play()
+      splashMusic.play()
       splashScreen = buildDom(`
         <div id="scientist-div">
             <img id="scientist" src="img/Poison Scientist.svg">
@@ -97,6 +97,11 @@ function createGameScreen() {
       <img id="np3" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
       <img id="np4" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
       <img id="np5" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np6" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np7" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np8" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np9" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np10" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
     </div>
     <img id="science-text2" src="img/Mad-science-text.png">
       <canvas id="canvas" width="500" height="500"></canvas>
@@ -144,7 +149,7 @@ function startGame(){
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-//gameMusic.play();
+gameMusic.play();
 
 
 //Draw Splat 
@@ -186,8 +191,19 @@ let beakerGreen1 = document.getElementById('beakerGreen1');
 let beakerGreen2 = document.getElementById('beakerGreen2');
 let beakerGreen3 = document.getElementById('beakerGreen3');
 
-let prizes = document.querySelectorAll('.nobel-prize')
-let prizesArray = [];
+let prize1 = document.getElementById('np1')
+let prize2 = document.getElementById('np2')
+let prize3 = document.getElementById('np3')
+let prize4 = document.getElementById('np4')
+let prize5 = document.getElementById('np5')
+let prize6 = document.getElementById('np6')
+let prize7 = document.getElementById('np7')
+let prize8 = document.getElementById('np8')
+let prize9 = document.getElementById('np9')
+let prize10 = document.getElementById('np10')
+
+let prizesArray = [prize1,prize2,prize3,prize4,prize5,prize6,prize7,prize8,prize9,prize10];
+
 let ballArray = [];
 let spawnRate = 400; //(more is less)
 let rateOfDescent = 2;
@@ -207,13 +223,8 @@ function getCursorPosition(canvas, event) {
 
 //generate Nobel Prizes
 function getPrize(){
-  [].forEach.call(prizes, function(el){
-    prizesArray.push(el);
-    for(let i = 0;i<prizesArray.length;i++){
-      prizesArray[0].classList.remove('hideBeaker')
-    }
-    
-  })
+  prizesArray[0].classList.remove('hideBeaker');
+  prizesArray.shift();
 }
 
 //Generate Random Color
