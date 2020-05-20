@@ -48,9 +48,28 @@ align-items:center;
 #canvas {
     padding-top:50px;
     border-bottom:3px solid black;
+    margin:none;
     cursor: url(img/DropperWhite.ico), auto;
+   
     
 
+}
+
+#nobel-prizes{
+    width:50px;
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
+    
+    
+    
+    
+}
+
+.nobel-prize {
+    width:50px;
+   
+    
 }
 
 #beaker-div {

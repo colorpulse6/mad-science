@@ -21,7 +21,8 @@ let myFillSound2 = new sound("sounds/Rise03.mp3")
 let myFillSound3 = new sound("sounds/Rise02.mp3")
 let splashMusic = new sound("sounds/Filthy Flowers.mp3")
 let gameMusic = new sound("sounds/Pictures.mp3");
-let gameOverSound = new sound("sounds/gameOver.wav")
+let gameOverSound = new sound("sounds/gameOver.wav");
+let levelSound = new sound("sounds/levelSound.mp3")
 
 let bg = new Image();
 
@@ -90,6 +91,13 @@ function createGameScreen() {
   
   
     <div id="canvas-div">
+    <div id="nobel-prizes">
+      <img id="np1" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np2" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np3" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np4" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+      <img id="np5" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
+    </div>
     <img id="science-text2" src="img/Mad-science-text.png">
       <canvas id="canvas" width="500" height="500"></canvas>
       <div class="beakerDivFinished">
@@ -157,7 +165,6 @@ ctx.fillStyle='white';
 
 
 //Get Beakers
-let beakerDiv = document.getElementById('beaker-div')
 
 let beakerBlue0 = document.getElementById('beakerBlue0');
 let beakerBlue1 = document.getElementById('beakerBlue1');
@@ -179,7 +186,8 @@ let beakerGreen1 = document.getElementById('beakerGreen1');
 let beakerGreen2 = document.getElementById('beakerGreen2');
 let beakerGreen3 = document.getElementById('beakerGreen3');
 
-
+let prizes = document.querySelectorAll('.nobel-prize')
+let prizesArray = [];
 let ballArray = [];
 let spawnRate = 400; //(more is less)
 let rateOfDescent = 2;
@@ -197,6 +205,16 @@ function getCursorPosition(canvas, event) {
      //console.log("x: " + mouseX + " y: " + mouseY)
 }
 
+//generate Nobel Prizes
+function getPrize(){
+  [].forEach.call(prizes, function(el){
+    prizesArray.push(el);
+    for(let i = 0;i<prizesArray.length;i++){
+      prizesArray[0].classList.remove('hideBeaker')
+    }
+    
+  })
+}
 
 //Generate Random Color
 var colorArray = ['blue', 'red', 'green', 'purple', 'orange', 'white']
@@ -287,7 +305,7 @@ function ballsFall(){
     }
     ballArray.shift();
     //End Game
-  if(lives === 0){
+  if(lives === 100){
   clearInterval(ballInterval)   
   gameMusic.stop();  
   gameOverSound.play();
@@ -302,7 +320,6 @@ function ballsFall(){
 }
 
 
-//test if ball is clicked
 
 
 let redCounter = 0;
@@ -324,12 +341,14 @@ function advanceLevel(){
   beakerBlue3.classList.add('hideBeaker') 
   beakerPurple3.classList.add('hideBeaker')
   beakerGreen3.classList.add('hideBeaker')
+  levelSound.play();
   console.log(level)
-  
+  getPrize()
 
 
 }
 
+//test if ball is clicked
 function grabBall(){ 
   for (let i = 0; i<ballArray.length; i++){
     let object = ballArray[i];
