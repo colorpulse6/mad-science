@@ -113,6 +113,9 @@ align-items:center;
     color:white;
     
 }
+#final-level{
+    margin-top:-15px;
+}
 
 #restart-button{
     width:150px;
