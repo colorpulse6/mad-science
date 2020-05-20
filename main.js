@@ -191,6 +191,8 @@ let beakerGreen1 = document.getElementById('beakerGreen1');
 let beakerGreen2 = document.getElementById('beakerGreen2');
 let beakerGreen3 = document.getElementById('beakerGreen3');
 
+let finishedBeakerDiv = document.querySelector('beakerDivFinished');
+
 let prize1 = document.getElementById('np1')
 let prize2 = document.getElementById('np2')
 let prize3 = document.getElementById('np3')
@@ -298,7 +300,7 @@ function ballsFall(){
 
         //Collision Test
       if(object.color === target && object.r === 0){
-        lives -= 1
+        lives -= 1;
       
         if(target === 'red'){
           ctx.drawImage(dropletRed, object.x - 50, canvas.height - 100,100,100);
@@ -316,7 +318,7 @@ function ballsFall(){
     }
     ballArray.shift();
     //End Game
-  if(lives === 0){
+  if(lives <= 0){
   clearInterval(ballInterval)   
   gameMusic.stop();  
   gameOverSound.play();
@@ -359,6 +361,17 @@ function advanceLevel(){
 
 }
 
+//Display Beaker on Load
+if (target === 'red' && redCounter === 0){
+  beakerRed0.classList.remove('hideBeaker')
+} else if (target === 'blue' && blueCounter === 0){
+  beakerBlue0.classList.remove('hideBeaker')
+} else if (purpleCounter === 0 && target === 'purple'){
+  beakerPurple0.classList.remove('hideBeaker')
+} else if (greenCounter === 0 && target === 'green'){
+  beakerGreen0.classList.remove('hideBeaker')
+} 
+
 //test if ball is clicked
 function grabBall(){ 
   for (let i = 0; i<ballArray.length; i++){
@@ -370,18 +383,16 @@ function grabBall(){
         //console.log('clicked')
         
          //Test of ball is target color
-
-         if (object.color === 'red' && target === 'red'){
+         if(object.color === 'white'){
+          lives -= 5;
+         }
+         else if (object.color === 'red' && target === 'red'){
           redCounter ++;
           lives ++;
           score += 10;
           ballArray.splice(i, 1);
 
-            if (redCounter === 0){
-              beakerRed0.classList.remove('hideBeaker')
-              
-              
-            } else if (redCounter === 1){
+              if (redCounter === 1){
               myFillSound1.play();
               beakerRed0.classList.add('hideBeaker')
               beakerRed1.classList.remove('hideBeaker')
@@ -405,10 +416,7 @@ function grabBall(){
           score += 10; //Add to Score
           ballArray.splice(i, 1); //Clear Ball
           //console.log(i)
-           if (target === 'blue' && blueCounter === 0){
-              beakerBlue0.classList.remove('hideBeaker')
-        
-          } else if (target === 'blue' && blueCounter === 1){
+            if (target === 'blue' && blueCounter === 1){
               myFillSound1.play();
               beakerBlue0.classList.add('hideBeaker')
               beakerBlue1.classList.remove('hideBeaker')
@@ -429,10 +437,7 @@ function grabBall(){
           lives ++;
           score += 10;
           ballArray.splice(i, 1);
-           if (purpleCounter === 0){
-             beakerPurple0.classList.remove('hideBeaker')
-    
-          } else if (purpleCounter === 1){
+            if (purpleCounter === 1){
               myFillSound1.play();
               beakerPurple0.classList.add('hideBeaker')
               beakerPurple1.classList.remove('hideBeaker')
@@ -454,10 +459,7 @@ function grabBall(){
           score += 10;
           console.log('You got a green! ' + greenCounter);
           ballArray.splice(i, 1);
-           if (greenCounter === 0){
-              beakerGreen0.classList.remove('hideBeaker')
-    
-          } else if (greenCounter === 1){
+            if (greenCounter === 1){
               myFillSound1.play();
               beakerGreen0.classList.add('hideBeaker')
               beakerGreen1.classList.remove('hideBeaker')
@@ -475,13 +477,22 @@ function grabBall(){
           }
         } 
         //Advance Level
-        if(advanceLevelCounter === 4){
-         
+        if (!beakerBlue3.classList.contains('hideBeaker') && !beakerRed3.classList.contains('hideBeaker') && !beakerGreen3.classList.contains('hideBeaker') && !beakerPurple3.classList.contains('hideBeaker')){
           advanceLevel();
+          
         }
         
       }  
-
+            //Display Beaker on Load After first
+      if (target === 'red' && redCounter === 0){
+        beakerRed0.classList.remove('hideBeaker')
+      } else if (target === 'blue' && blueCounter === 0){
+        beakerBlue0.classList.remove('hideBeaker')
+      } else if (purpleCounter === 0 && target === 'purple'){
+        beakerPurple0.classList.remove('hideBeaker')
+      } else if (greenCounter === 0 && target === 'green'){
+        beakerGreen0.classList.remove('hideBeaker')
+      } 
 
 
    
@@ -511,7 +522,7 @@ function drawText(){
   ctx.fillStyle='white';
   ctx.fillText("Score: " + score, 10, 150);
   ctx.fillStyle='white';
-  ctx.fillText("Level: " + level, 350, 150);
+  ctx.fillText("Level: " + level, 380, 150);
   
 }
 
