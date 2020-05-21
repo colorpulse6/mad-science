@@ -46,7 +46,7 @@ function main() {
 
     // SETTING GAME SPLASH SCREEN
     function createSplashScreen() {
-      //splashMusic.play()
+      splashMusic.play()
       splashScreen = buildDom  (`
         <div id="scientist-div">
             <img id="scientist" src="img/Poison Scientist.svg">
@@ -167,7 +167,7 @@ function startGame(name){
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-//gameMusic.play();
+gameMusic.play();
 
 
 //Draw Splat 
