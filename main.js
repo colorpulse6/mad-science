@@ -1,4 +1,4 @@
-// to modify the DOM depending on the screen
+
 
 //Sounds
 function sound(src) {
@@ -15,6 +15,7 @@ function sound(src) {
     this.sound.pause();
   }
 }
+
 let mySplatSound = new sound("sounds/Splat.mp3");
 let myFillSound1 = new sound("sounds/Rise01.mp3")
 let myFillSound2 = new sound("sounds/Rise03.mp3")
@@ -26,6 +27,7 @@ let levelSound = new sound("sounds/levelSound.mp3")
 
 let bg = new Image();
 
+let name;
 
 function buildDom(htmlString) {
     var div = document.createElement("div");
@@ -35,6 +37,7 @@ function buildDom(htmlString) {
     return div.children[0];
   }
 
+// to modify the DOM depending on the screen
   // main game function for page load
 function main() {
     var game;
@@ -43,8 +46,8 @@ function main() {
 
     // SETTING GAME SPLASH SCREEN
     function createSplashScreen() {
-      splashMusic.play()
-      splashScreen = buildDom(`
+      //splashMusic.play()
+      splashScreen = buildDom  (`
         <div id="scientist-div">
             <img id="scientist" src="img/Poison Scientist.svg">
             <img id="science-text" src="img/Mad-science-text.png">
@@ -54,19 +57,29 @@ function main() {
               <h2>Each Beaker Holds 3 Ingredients!</h2>
               <h2>Fill all the Beakers for the Nobel Prize!</h2>
               <h2>Avoid White Balls!</h2>
+              
             </div>
             
+            <div class="input">
+            <label for="name" style="color:white;">Name: </label>
+            <input type="text" id="name" maxlength="24">
             <button id="start-button">Commence!</button>
+          </div>
+            
+            
         </div>`);
-  
+      
       document.body.appendChild(splashScreen);
 
       var startButton = splashScreen.querySelector("#start-button");
-  
+      
+      
       startButton.addEventListener("click", function() {
+        name = document.querySelector("input").value;
+        
         removeSplashScreen()
         createGameScreen();
-        startGame();
+        startGame(name);
       });
 
     }
@@ -88,7 +101,7 @@ function main() {
 
 //*********Play Game********
 
-function createGameScreen() {
+function createGameScreen(name) {
   gameScreen = buildDom(`
   
   
@@ -144,16 +157,17 @@ function createGameScreen() {
     
     `);
 
+
   document.body.appendChild(gameScreen);
   return gameScreen;
   
 }
 
-function startGame(){ 
+function startGame(name){ 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-gameMusic.play();
+//gameMusic.play();
 
 
 //Draw Splat 
@@ -250,7 +264,7 @@ getRandomColor()
 //Spawn Balls 
 function makeBalls(){
   let balls = {
-    x: Math.random() * (canvas.width - 80) + 15,
+    x: Math.random() * (canvas.width - 80) + 20,
     y: 0,
     r: 20,
     color:randomColor  
@@ -277,8 +291,6 @@ function generateTarget(){
    target = randomTarget; 
 }
 generateTarget()
-
-
 let lives = 5;
 
 
@@ -324,11 +336,11 @@ function ballsFall(){
     }
     ballArray.shift();
     //End Game
-  if(lives <= 0){
+  if(lives === 4){
   clearInterval(ballInterval)   
   gameMusic.stop();  
   gameOverSound.play();
-  createGameOverScreen(score, level)
+  createGameOverScreen(score, level, name)
   
   }
     }
@@ -356,13 +368,13 @@ function advanceLevel(){
   
   advanceLevelCounter = 0;
   level ++;
-  console.log(rateOfDescent)
+  //console.log(rateOfDescent)
   beakerRed3.classList.add('hideBeaker')
   beakerBlue3.classList.add('hideBeaker') 
   beakerPurple3.classList.add('hideBeaker')
   beakerGreen3.classList.add('hideBeaker')
   levelSound.play();
-  console.log(level)
+  //console.log(level)
   getPrize()
 
 
@@ -490,6 +502,7 @@ function grabBall(){
         }
         
       }  
+
             //Display Beaker on Load After first
       if (target === 'red' && redCounter === 0){
         beakerRed0.classList.remove('hideBeaker')
@@ -551,6 +564,10 @@ function draw() {
 let ballInterval = setInterval(draw, 10);
 
 
+
+
+
+
 //clearInterval(ballInterval)
 
 }
@@ -563,20 +580,99 @@ function removeGameScreen(){
   
 }
   
-function createGameOverScreen(score, level){
+function createGameOverScreen(score, level, name){
+
+    //Local Storage
+
+  
+
+   
+    let maxHighScore = 5;
+    let scoreArray = JSON.parse(localStorage.getItem("scoreArray")) || [];
+   
+    
+    let newScore = {
+      name: name, 
+      score: score
+    };
+    scoreArray.push(newScore)
+    scoreArray.sort(function(a,b) {
+      if (a.score < b.score) {
+        return 1;
+      } else if (a.score > b.score) {
+        return -1;
+      } else {
+        return 0;
+      }
+    })
+    scoreArray.splice(5);
+
+    localStorage.setItem('scoreArray', JSON.stringify(scoreArray))
+
+  console.log(scoreArray)
+
+if (scoreArray[0]) {
+      var scoreStr1 = `${scoreArray[0].name} : ${scoreArray[0].score}`;
+    } else {
+      var scoreStr1 = "Jöns Jacob Berzelius : 0";
+    }
+
+    if (scoreArray[1]) {
+      var scoreStr2 = `${scoreArray[1].name} : ${scoreArray[1].score}`;
+    } else {
+      var scoreStr2 = "Marie Curie : 0";
+    }
+
+    if (scoreArray[2]) {
+      var scoreStr3 = `${scoreArray[2].name} : ${scoreArray[2].score}`;
+    } else {
+      var scoreStr3 = "Albert Einstein : 0";
+    }
+
+    if (scoreArray[3]) {
+      var scoreStr4 = `${scoreArray[3].name} : ${scoreArray[3].score}`;
+    } else {
+      var scoreStr4 = "Robert Boyle : 0";
+    }
+
+    if (scoreArray[4]) {
+      var scoreStr5 = `${scoreArray[4].name} : ${scoreArray[4].score}`;
+    } else {
+      var scoreStr5 = "Dmitri Mendeleev : 0";
+    }
+
+
+
   let gameOverScreen = buildDom(`
   
     <div id="game-over-div">
-      <h1 id="game-over-text">Game Over!</h1>
-      <img class="sad-scientist"src="img/SadScientistPng.png">
+
+      <div id="game-over-items">
+        <h1 id="game-over-text">Game Over!</h1>
+        <img class="sad-scientist"src="img/SadScientistPng.png">
         <button id="restart-button">Restart</button>
         <h1 id="final-score" class= "blinking">Final Score</h1>
-        <h2 id="final-level" class= "blinking">Level Reached</h2>
-    </div>    
+        <h2 id="final-level" class= "blinking">Level Reached</h2> 
+      </div>
+        
+      <div id="score-board">
+        <h2>Leader Boards</h2>  
+        <ul>
+          <li> ${scoreStr1} </li> 
+          <li> ${scoreStr2} </li>
+          <li> ${scoreStr3} </li>
+          <li> ${scoreStr4} </li>
+          <li> ${scoreStr5} </li>
+        </ul>
+      </div>  
+
+    </div>  
+    
     `);
     document.body.appendChild(gameOverScreen);
     removeGameScreen();
-    
+
+
 
     var finalScore = gameOverScreen.querySelector("#final-score");
     var finalLevel = gameOverScreen.querySelector("#final-level");
