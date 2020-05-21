@@ -59,9 +59,9 @@ function main() {
               <h2>Avoid White Balls!</h2>
               
             </div>
-            
             <div class="input">
-            <label for="name" style="color:white;">Name: </label>
+            
+            <label for="name" id="name-text">Name: </label>
             <input type="text" id="name" maxlength="24">
             <button id="start-button">Commence!</button>
           </div>
@@ -583,11 +583,7 @@ function removeGameScreen(){
 function createGameOverScreen(score, level, name){
 
     //Local Storage
-
-  
-
    
-    let maxHighScore = 5;
     let scoreArray = JSON.parse(localStorage.getItem("scoreArray")) || [];
    
     
@@ -611,36 +607,35 @@ function createGameOverScreen(score, level, name){
 
   console.log(scoreArray)
 
-if (scoreArray[0]) {
-      var scoreStr1 = `${scoreArray[0].name} : ${scoreArray[0].score}`;
+if (scoreArray[0].name && scoreArray[0].score) {
+      var scoreStr1 = `${scoreArray[0].name}: ${scoreArray[0].score}`;
     } else {
-      var scoreStr1 = "Jöns Jacob Berzelius : 0";
+      var scoreStr1 = "Jöns Jacob Berzelius: 15762";
     }
 
-    if (scoreArray[1]) {
-      var scoreStr2 = `${scoreArray[1].name} : ${scoreArray[1].score}`;
+    if (scoreArray[1].name && scoreArray[1].score) {
+      var scoreStr2 = `${scoreArray[1].name}: ${scoreArray[1].score}`;
     } else {
-      var scoreStr2 = "Marie Curie : 0";
+      var scoreStr2 = "Marie Curie: 0";
     }
 
-    if (scoreArray[2]) {
-      var scoreStr3 = `${scoreArray[2].name} : ${scoreArray[2].score}`;
+    if (scoreArray[2].name && scoreArray[2].score) {
+      var scoreStr3 = `${scoreArray[2].name}: ${scoreArray[2].score}`;
     } else {
-      var scoreStr3 = "Albert Einstein : 0";
+      var scoreStr3 = "Albert Einstein: 0";
     }
 
-    if (scoreArray[3]) {
+    if (scoreArray[3].name && scoreArray[3].score) {
       var scoreStr4 = `${scoreArray[3].name} : ${scoreArray[3].score}`;
     } else {
       var scoreStr4 = "Robert Boyle : 0";
     }
 
-    if (scoreArray[4]) {
+    if (scoreArray[4].name && scoreArray[4].score) {
       var scoreStr5 = `${scoreArray[4].name} : ${scoreArray[4].score}`;
     } else {
-      var scoreStr5 = "Dmitri Mendeleev : 0";
+      var scoreStr5 = "Dmitri Mendeleev: 0";
     }
-
 
 
   let gameOverScreen = buildDom(`
@@ -656,13 +651,10 @@ if (scoreArray[0]) {
       </div>
         
       <div id="score-board">
-        <h2>Leader Boards</h2>  
+        <h2 class = "marquee"></h2>  
         <ul>
-          <li> ${scoreStr1} </li> 
-          <li> ${scoreStr2} </li>
-          <li> ${scoreStr3} </li>
-          <li> ${scoreStr4} </li>
-          <li> ${scoreStr5} </li>
+          <li class="marquee-text"> 1.${scoreStr1} &nbsp   2.${scoreStr2}  &nbsp  3.${scoreStr3}  &nbsp  4.${scoreStr4}  &nbsp  5.${scoreStr5} </li> 
+          
         </ul>
       </div>  
 
