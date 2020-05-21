@@ -336,7 +336,7 @@ function ballsFall(){
     }
     ballArray.shift();
     //End Game
-  if(lives === 4){
+  if(lives <= 0){
   clearInterval(ballInterval)   
   gameMusic.stop();  
   gameOverSound.play();
