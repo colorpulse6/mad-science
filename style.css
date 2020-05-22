@@ -201,10 +201,7 @@ align-items:center;
     from { left:100%; transform: translate(0, 0); }
     to { left: -100%; transform: translate(-100%, 0); }
   }
-  @-webkit-keyframes slide {
-    from { left:100%; transform: translate(0, 0); }
-    to { left: -100%; transform: translate(-100%, 0); }
-  }
+ 
   
   .marquee { 
     color:red; 
@@ -227,7 +224,7 @@ align-items:center;
     animation-timing-function: liear;
     animation-iteration-count: infinite;
     -webkit-animation-name: slide;
-    -webkit-animation-duration: 30s;
+    -webkit-animation-duration: 25s;
     -webkit-animation-timing-function:linear;
     -webkit-animation-iteration-count: infinite;
     list-style-type: none;

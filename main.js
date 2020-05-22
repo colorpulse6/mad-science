@@ -585,7 +585,6 @@ function createGameOverScreen(score, level, name){
     //Local Storage
    
     let scoreArray = JSON.parse(localStorage.getItem("scoreArray")) || [];
-   
     
     let newScore = {
       name: name, 
@@ -653,7 +652,7 @@ if (scoreArray[0].name && scoreArray[0].score) {
       <div id="score-board">
         <h2 class = "marquee"></h2>  
         <ul>
-          <li class="marquee-text"> 1.${scoreStr1} &nbsp   2.${scoreStr2}  &nbsp  3.${scoreStr3}  &nbsp  4.${scoreStr4}  &nbsp  5.${scoreStr5} </li> 
+          <li class="marquee-text"> High Scores - 1.${scoreStr1} &nbsp   2.${scoreStr2}  &nbsp  3.${scoreStr3}  &nbsp  4.${scoreStr4}  &nbsp  5.${scoreStr5} </li> 
           
         </ul>
       </div>  
