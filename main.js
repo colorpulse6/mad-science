@@ -1,5 +1,4 @@
 
-
 //Sounds
 function sound(src) {
   this.sound = document.createElement("audio");
@@ -24,27 +23,24 @@ let splashMusic = new sound("sounds/Filthy Flowers.mp3")
 let gameMusic = new sound("sounds/Pictures.mp3");
 let gameOverSound = new sound("sounds/gameOver.wav");
 let levelSound = new sound("sounds/levelSound.mp3")
-
-let bg = new Image();
+let wrongBallSound = new sound("sounds/WrongBallSound.wav")
 
 let name;
 
+//Function to build each page
+
 function buildDom(htmlString) {
     var div = document.createElement("div");
-  
     div.innerHTML = htmlString;
-  
     return div.children[0];
   }
 
-// to modify the DOM depending on the screen
-  // main game function for page load
-function main() {
-    var game;
-    var splashScreen;
-    var gameOverScreen;
 
-    // SETTING GAME SPLASH SCREEN
+  // Main page function for page load
+function main() {
+    var splashScreen;
+
+    // Create SPLASH SCREEN
     function createSplashScreen() {
       splashMusic.play()
       splashScreen = buildDom  (`
@@ -57,26 +53,20 @@ function main() {
               <h2>Each Beaker Holds 3 Ingredients!</h2>
               <h2>Fill all the Beakers for the Nobel Prize!</h2>
               <h2>Avoid White Balls!</h2>
-              
             </div>
             <div class="input">
-            
             <label for="name" id="name-text">Name: </label>
             <input type="text" id="name" maxlength="24">
             <button id="start-button">Commence!</button>
-          </div>
-            
-            
+          </div>    
         </div>`);
       
       document.body.appendChild(splashScreen);
 
       var startButton = splashScreen.querySelector("#start-button");
       
-      
       startButton.addEventListener("click", function() {
-        name = document.querySelector("input").value;
-        
+        name = document.querySelector("input").value;       
         removeSplashScreen()
         createGameScreen();
         startGame(name);
@@ -102,9 +92,9 @@ function main() {
 //*********Play Game********
 
 function createGameScreen(name) {
+  let level;
   gameScreen = buildDom(`
-  
-  
+ 
     <div id="canvas-div">
     <div id="nobel-prizes">
       <img id="np1" class="nobel-prize hideBeaker" src ="img/nobelPrize.png">
@@ -127,40 +117,30 @@ function createGameScreen(name) {
           <img id="beakerRed3" class="hideBeaker"src="img/Nic Beaker/Beaker png/red3.png">
           <img id="beakerPurple3" class="hideBeaker"src="img/Nic Beaker/Beaker png/purple3.png">
           <img id="beakerGreen3"  class="hideBeaker"src="img/Nic Beaker/Beaker png/green3.png">
-      
+          <h1 id = "levelDisplay" class="hideBeaker blinking">Level!</h1>
       </div>
         <div id="beaker-div">
-          
           <img id="beakerBlue0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue0.png">
           <img id="beakerBlue1" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue1.png">
           <img id="beakerBlue2" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/blue2.png">
           
-
           <img id="beakerRed0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red0.png">
           <img id="beakerRed1" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red1.png">
           <img id="beakerRed2" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/red2.png">
           
-
           <img id="beakerPurple0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple0.png">
           <img id="beakerPurple1" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple1.png">
           <img id="beakerPurple2" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/purple2.png">
           
-
           <img id="beakerGreen0" class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green0.png">
           <img id="beakerGreen1"  class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green1.png">
           <img id="beakerGreen2"  class="beakerClass hideBeaker"src="img/Nic Beaker/Beaker png/green2.png">
-   
-
        </div>
-
     </div>
-    
     `);
-
 
   document.body.appendChild(gameScreen);
   return gameScreen;
-  
 }
 
 function startGame(name){ 
@@ -180,14 +160,7 @@ dropletPurple.src = "img/dropletPurple.png";
 let dropletGreen = new Image();
 dropletGreen.src = "img/dropletGreen.png";
 
-
-
-//bg.src = "img/people-working-science-lab/3696841.jpg";
-ctx.fillStyle='white';
-
-
-
-//Get Beakers
+//Get Beaker Images
 
 let beakerBlue0 = document.getElementById('beakerBlue0');
 let beakerBlue1 = document.getElementById('beakerBlue1');
@@ -209,7 +182,7 @@ let beakerGreen1 = document.getElementById('beakerGreen1');
 let beakerGreen2 = document.getElementById('beakerGreen2');
 let beakerGreen3 = document.getElementById('beakerGreen3');
 
-let finishedBeakerDiv = document.querySelector('beakerDivFinished');
+//Get Nobel Prize Images
 
 let prize1 = document.getElementById('np1')
 let prize2 = document.getElementById('np2')
@@ -226,12 +199,7 @@ let prize12 = document.getElementById('np12')
 
 let prizesArray = [prize1,prize2,prize3,prize4,prize5,prize6,prize7,prize8,prize9,prize10,prize11,prize12];
 
-let ballArray = [];
-let spawnRate = 400; //(more is less)
-let rateOfDescent = 2;
-let lastSpawn = -10
-
-//Get cursor position
+//Get Cursor Position
 let rect;
 let mouseX;
 let mouseY;
@@ -240,10 +208,9 @@ function getCursorPosition(canvas, event) {
      rect = canvas.getBoundingClientRect()
      mouseX = event.clientX - rect.left;
      mouseY = event.clientY - rect.top;
-     //console.log("x: " + mouseX + " y: " + mouseY)
 }
 
-//generate Nobel Prizes
+//Generate Nobel Prizes
 function getPrize(){
   prizesArray[0].classList.remove('hideBeaker');
   prizesArray.shift();
@@ -260,8 +227,12 @@ function getRandomColor(){
 }
 getRandomColor()
 
-
 //Spawn Balls 
+let ballArray = [];
+let spawnRate = 400; //(more is less)
+let rateOfDescent = 2;
+let lastSpawn = -10
+
 function makeBalls(){
   let balls = {
     x: Math.random() * (canvas.width - 80) + 20,
@@ -270,6 +241,7 @@ function makeBalls(){
     color:randomColor  
   }
   ballArray.push(balls)
+  
 }
 
 
@@ -291,11 +263,11 @@ function generateTarget(){
    target = randomTarget; 
 }
 generateTarget()
+
+
 let lives = 5;
 
-
-
-//Make Balls fall
+//Make Balls Fall
 function ballsFall(){
   var time = Date.now();
   if (time > (lastSpawn + spawnRate)) {
@@ -316,7 +288,7 @@ function ballsFall(){
     if (object.y >= canvas.height - 50){
       object.r = 0;
 
-        //Collision Test
+        //Collision Test For Y Axis
       if(object.color === target && object.r === 0){
         lives -= 1;
       
@@ -331,52 +303,53 @@ function ballsFall(){
         }
         
         mySplatSound.play();
-      //console.log(lives)
        
-    }
+      }
+    //Remove Ball at Canvas Height
     ballArray.shift();
-    //End Game
-  if(lives <= 0){
-  clearInterval(ballInterval)   
-  gameMusic.stop();  
-  gameOverSound.play();
-  createGameOverScreen(score, level, name)
-  
-  }
+
+        //End Game
+      if(lives <= 0){
+        clearInterval(ballInterval)   
+        gameMusic.stop();  
+        gameOverSound.play();
+        createGameOverScreen(score, level, name)
+      }
     }
-    
-    
   }
-  
 }
-
-
 
 
 let redCounter = 0;
 let blueCounter = 0;
 let purpleCounter = 0;
 let greenCounter = 0;
-let advanceLevelCounter = 0;
 let score = 0
 let level = 1;
+
+
+//Display Level Activity
+function displayLevel(){
+  document.getElementById('levelDisplay').innerHTML = `Level ${level}!`
+  document.getElementById('levelDisplay').classList.remove('hideBeaker')
+}
 
 //Advance Level
 function advanceLevel(){
   rateOfDescent += 0.3;
   spawnRate -= 50;
-  
-  advanceLevelCounter = 0;
   level ++;
-  //console.log(rateOfDescent)
   beakerRed3.classList.add('hideBeaker')
   beakerBlue3.classList.add('hideBeaker') 
   beakerPurple3.classList.add('hideBeaker')
   beakerGreen3.classList.add('hideBeaker')
   levelSound.play();
-  //console.log(level)
   getPrize()
-
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  displayLevel()
+  setTimeout(function(){
+    document.getElementById('levelDisplay').classList.add('hideBeaker')
+  }, 2000)
 
 }
 
@@ -391,119 +364,112 @@ if (target === 'red' && redCounter === 0){
   beakerGreen0.classList.remove('hideBeaker')
 } 
 
-//test if ball is clicked
+//Test if Ball is Clicked
 function grabBall(){ 
   for (let i = 0; i<ballArray.length; i++){
     let object = ballArray[i];
     
-    //Click Test
+    //Set Cursor to Ball
       if (mouseX >= object.x && mouseX <= object.x + object.r || mouseY >= object.y && mouseY <= object.y + object.r) {
-        console.log(redCounter)
-        //console.log('clicked')
         
-         //Test of ball is target color
+         //Test of ball is Target Tolor
          if(object.color === 'white'){
-          lives -= 5;
+          lives -= 5; //Enemy Ball
+          wrongBallSound.play();
          }
          else if (object.color === 'red' && target === 'red'){
-          redCounter ++;
-          lives ++;
-          score += 10;
-          ballArray.splice(i, 1);
+            redCounter ++; //Count until Full (3)
+            lives ++; //Increase Lives
+            score += 10; //Add to Score
+            ballArray.splice(i, 1); //Clear Ball
 
               if (redCounter === 1){
               myFillSound1.play();
-              beakerRed0.classList.add('hideBeaker')
-              beakerRed1.classList.remove('hideBeaker')
+              beakerRed0.classList.add('hideBeaker') //Show Beaker 0
+              beakerRed1.classList.remove('hideBeaker') //Show Beaker 1
             } else if (redCounter === 2){
               myFillSound2.play();
-              beakerRed1.classList.add('hideBeaker')
-              beakerRed2.classList.remove('hideBeaker')
+              beakerRed1.classList.add('hideBeaker') //Show Beaker 1
+              beakerRed2.classList.remove('hideBeaker') //Show Beaker 2
             }
               else if(redCounter === 3){
-              beakerRed2.classList.add('hideBeaker')
-              beakerRed3.classList.remove('hideBeaker')
-              advanceLevelCounter ++;
-              redCounter = 0;
+              beakerRed2.classList.add('hideBeaker') //Hide Beaker 2
+              beakerRed3.classList.remove('hideBeaker') //Show Beaker 3 Below
+              redCounter = 0; //Reset Counter
               myFillSound3.play();
               generateTarget();
             }
           
         } else if (object.color === 'blue' && target === 'blue'){
-          blueCounter ++; // Count until Full (3)
-          lives ++;// Increase Lives
-          score += 10; //Add to Score
-          ballArray.splice(i, 1); //Clear Ball
-          //console.log(i)
-            if (target === 'blue' && blueCounter === 1){
-              myFillSound1.play();
-              beakerBlue0.classList.add('hideBeaker')
-              beakerBlue1.classList.remove('hideBeaker')
-          } else if (target === 'blue' && blueCounter === 2){
-              myFillSound2.play();
-              beakerBlue1.classList.add('hideBeaker')
-              beakerBlue2.classList.remove('hideBeaker')
-          } else if (blueCounter === 3){
-              beakerBlue2.classList.add('hideBeaker') // Hide Beaker 2
-              beakerBlue3.classList.remove('hideBeaker') //Show Beaker 3
-              advanceLevelCounter ++; //Count to next level
-              blueCounter = 0; //Reset Counter
-              myFillSound3.play();
-              generateTarget();
-          }
+            blueCounter ++; 
+            lives ++;
+            score += 10; 
+            ballArray.splice(i, 1); 
+            
+              if (target === 'blue' && blueCounter === 1){
+                myFillSound1.play();
+                beakerBlue0.classList.add('hideBeaker')
+                beakerBlue1.classList.remove('hideBeaker')
+            } else if (target === 'blue' && blueCounter === 2){
+                myFillSound2.play();
+                beakerBlue1.classList.add('hideBeaker')
+                beakerBlue2.classList.remove('hideBeaker')
+            } else if (blueCounter === 3){
+                beakerBlue2.classList.add('hideBeaker') 
+                beakerBlue3.classList.remove('hideBeaker') 
+                blueCounter = 0; 
+                myFillSound3.play();
+                generateTarget();
+            }
         } else if (object.color === 'purple' && target === 'purple'){
-          purpleCounter ++;
-          lives ++;
-          score += 10;
-          ballArray.splice(i, 1);
-            if (purpleCounter === 1){
-              myFillSound1.play();
-              beakerPurple0.classList.add('hideBeaker')
-              beakerPurple1.classList.remove('hideBeaker')
-          } else if (purpleCounter === 2){
-              myFillSound2.play();
-              beakerPurple1.classList.add('hideBeaker')
-              beakerPurple2.classList.remove('hideBeaker')
-          } else if (purpleCounter === 3){
-              beakerPurple2.classList.add('hideBeaker')
-              beakerPurple3.classList.remove('hideBeaker')
-              advanceLevelCounter ++;
-              purpleCounter = 0;
-              myFillSound3.play();
-              generateTarget();
-          }
+            purpleCounter ++;
+            lives ++;
+            score += 10;
+            ballArray.splice(i, 1);
+              if (purpleCounter === 1){
+                myFillSound1.play();
+                beakerPurple0.classList.add('hideBeaker')
+                beakerPurple1.classList.remove('hideBeaker')
+            } else if (purpleCounter === 2){
+                myFillSound2.play();
+                beakerPurple1.classList.add('hideBeaker')
+                beakerPurple2.classList.remove('hideBeaker')
+            } else if (purpleCounter === 3){
+                beakerPurple2.classList.add('hideBeaker')
+                beakerPurple3.classList.remove('hideBeaker')
+                purpleCounter = 0;
+                myFillSound3.play();
+                generateTarget();
+            }
         } else if (object.color === 'green' && target === 'green'){
-          greenCounter ++;
-          lives ++;
-          score += 10;
-          console.log('You got a green! ' + greenCounter);
-          ballArray.splice(i, 1);
-            if (greenCounter === 1){
-              myFillSound1.play();
-              beakerGreen0.classList.add('hideBeaker')
-              beakerGreen1.classList.remove('hideBeaker')
-          } else if (greenCounter === 2){
-              myFillSound2.play();
-              beakerGreen1.classList.add('hideBeaker')
-              beakerGreen2.classList.remove('hideBeaker')
-          } else if (greenCounter === 3){
-              beakerGreen2.classList.add('hideBeaker')
-              beakerGreen3.classList.remove('hideBeaker')
-              advanceLevelCounter ++;
-              greenCounter = 0;
-              myFillSound3.play();
-              generateTarget();
-          }
+            greenCounter ++;
+            lives ++;
+            score += 10;
+            ballArray.splice(i, 1);
+              if (greenCounter === 1){
+                myFillSound1.play();
+                beakerGreen0.classList.add('hideBeaker')
+                beakerGreen1.classList.remove('hideBeaker')
+            } else if (greenCounter === 2){
+                myFillSound2.play();
+                beakerGreen1.classList.add('hideBeaker')
+                beakerGreen2.classList.remove('hideBeaker')
+            } else if (greenCounter === 3){
+                beakerGreen2.classList.add('hideBeaker')
+                beakerGreen3.classList.remove('hideBeaker')
+                greenCounter = 0;
+                myFillSound3.play();
+                generateTarget();
+            }
         } 
+
         //Advance Level
         if (!beakerBlue3.classList.contains('hideBeaker') && !beakerRed3.classList.contains('hideBeaker') && !beakerGreen3.classList.contains('hideBeaker') && !beakerPurple3.classList.contains('hideBeaker')){
           advanceLevel();
-
         }
-        
       }  
 
-            //Display Beaker on Load After first
+      //Display Beaker on Load 
       if (target === 'red' && redCounter === 0){
         beakerRed0.classList.remove('hideBeaker')
       } else if (target === 'blue' && blueCounter === 0){
@@ -513,27 +479,20 @@ function grabBall(){
       } else if (greenCounter === 0 && target === 'green'){
         beakerGreen0.classList.remove('hideBeaker')
       } 
-
-
-   
   } //End of ForLoop
-      //Change Beaker
-    //Red
-     //Blue
-       //Purple
-       //Green
-      
-
-
 }
 
-// On click function
-canvas.addEventListener('mousedown', function(e) {
-  getCursorPosition(canvas, e)
-  grabBall();
+//***********************
 
+
+// On Click Event Listener
+canvas.addEventListener('mousedown', function(e) {
+  getCursorPosition(canvas, e);
+  grabBall();
 })
 
+
+//Draw Text on Canvas
 function drawText(){
   ctx.font = "30px Arial";
   ctx.fillText("Target: " + target[0].toUpperCase() +  
@@ -543,55 +502,42 @@ function drawText(){
   ctx.fillText("Score: " + score, 10, 150);
   ctx.fillStyle='white';
   ctx.fillText("Level: " + level, 380, 150);
-  
 }
 
 
-  //Ball Movement (put behavior here)
+//Ball Movement
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height - 20);
-  //Draw Background
-  //ctx.drawImage(bg, 0, 0,canvas.width,canvas.height-20);
   drawText();
   ballsFall();
 }
 
 
-
-
-//Open Loop 
-
+//Open Loop Interval
 let ballInterval = setInterval(draw, 10);
-
-
-
-
-
-
 //clearInterval(ballInterval)
 
-}
+}//************END OF GAME FUNCTION************
 
-//***********
+
 
 function removeGameScreen(){
-  gameScreen.remove()
-  
-  
+  gameScreen.remove();
 }
   
 function createGameOverScreen(score, level, name){
 
-    //Local Storage
-   
-    let scoreArray = JSON.parse(localStorage.getItem("scoreArray")) || [];
+    //***Local Storage***
+    let scoreArray = JSON.parse(localStorage.getItem("scoreArray")) || []; //Get Storage and Read Array
     
-    let newScore = {
+    let newScore = { //Storage Object
       name: name, 
       score: score
     };
-    scoreArray.push(newScore)
-    scoreArray.sort(function(a,b) {
+
+    scoreArray.push(newScore) //Push Score and Name to Array
+
+    scoreArray.sort(function(a,b) { //Sort Scores
       if (a.score < b.score) {
         return 1;
       } else if (a.score > b.score) {
@@ -600,12 +546,13 @@ function createGameOverScreen(score, level, name){
         return 0;
       }
     })
-    scoreArray.splice(5);
 
-    localStorage.setItem('scoreArray', JSON.stringify(scoreArray))
+    scoreArray.splice(5); //Limit Scores to 5
 
-  console.log(scoreArray)
+    localStorage.setItem('scoreArray', JSON.stringify(scoreArray)) //Print to Local Storage
 
+
+//Print Names and Scores to DOM
 if (scoreArray[0].name && scoreArray[0].score) {
       var scoreStr1 = `${scoreArray[0].name}: ${scoreArray[0].score}`;
     } else {

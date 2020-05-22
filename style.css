@@ -71,6 +71,13 @@ align-items:center;
 
 }
 
+#levelDisplay{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color:white;
+    margin-left:100px;
+    font-size:50px;
+}
+
 #nobel-prizes{
     width:200px;
     margin-left:100px;
