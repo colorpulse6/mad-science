@@ -21,6 +21,23 @@ Mad Science is a game where the player must click on the appropriate balls falli
 
 ## Data Structure
 
+# Screens
+- createSplashScreen()
+- createGameScreen()
+- createGameOverScreen()
+
+# Main Functions
+- getCursorPosition()
+- getPrize
+- getRandomColor()
+- makeBalls()
+- getRandomTarget
+- ballsFalls()
+- displayLevel()
+- advanceLevel()
+- grabBall()
+- drawtext()
+- draw()
 
 ## Task
 
