@@ -562,25 +562,25 @@ if (scoreArray[0].name && scoreArray[0].score) {
     if (scoreArray[1].name && scoreArray[1].score) {
       var scoreStr2 = `${scoreArray[1].name}: ${scoreArray[1].score}`;
     } else {
-      var scoreStr2 = "Marie Curie: 0";
+      var scoreStr2 = "Marie Curie: 1143";
     }
 
     if (scoreArray[2].name && scoreArray[2].score) {
       var scoreStr3 = `${scoreArray[2].name}: ${scoreArray[2].score}`;
     } else {
-      var scoreStr3 = "Albert Einstein: 0";
+      var scoreStr3 = "Albert Einstein: 700";
     }
 
     if (scoreArray[3].name && scoreArray[3].score) {
       var scoreStr4 = `${scoreArray[3].name} : ${scoreArray[3].score}`;
     } else {
-      var scoreStr4 = "Robert Boyle : 0";
+      var scoreStr4 = "Robert Boyle : 401";
     }
 
     if (scoreArray[4].name && scoreArray[4].score) {
       var scoreStr5 = `${scoreArray[4].name} : ${scoreArray[4].score}`;
     } else {
-      var scoreStr5 = "Dmitri Mendeleev: 0";
+      var scoreStr5 = "Dmitri Mendeleev: 297";
     }
 
 
